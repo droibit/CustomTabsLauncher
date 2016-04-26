@@ -1,14 +1,19 @@
 language: android
 
-env:
-  global:
-    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+jdk:
+  - oraclejdk7
 
 android:
   components:
+    - platform-tools
+    - tools
     - build-tools-23.0.3
     - android-23
     - extra-android-m2repository
+
+env:
+  global:
+    - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
 
 script:
   - ./gradlew clean test --info
