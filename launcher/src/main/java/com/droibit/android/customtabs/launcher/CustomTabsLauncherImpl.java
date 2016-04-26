@@ -25,17 +25,22 @@ import static android.content.pm.PackageManager.GET_META_DATA;
 @VisibleForTesting
 class CustomTabsLauncherImpl {
 
+    @VisibleForTesting
     static final String PACKAGE_STABLE = "com.android.chrome";
+    @VisibleForTesting
     static final String PACKAGE_BETA = "com.chrome.beta";
+    @VisibleForTesting
     static final String PACKAGE_DEV = "com.chrome.dev";
+    @VisibleForTesting
     static final String PACKAGE_LOCAL = "com.google.android.apps.chrome";
-    static final List<String> CHROME_PACKAGES = Arrays.asList(
+
+    private static final List<String> CHROME_PACKAGES = Arrays.asList(
             PACKAGE_STABLE,
             PACKAGE_BETA,
             PACKAGE_DEV,
             PACKAGE_LOCAL);
 
-     static final String ACTION_CUSTOM_TABS_CONNECTION =
+     private static final String ACTION_CUSTOM_TABS_CONNECTION =
             "android.support.customtabs.action.CustomTabsService";
 
     @VisibleForTesting
@@ -84,8 +89,13 @@ class CustomTabsLauncherImpl {
         }
 
         // Stable comes first.
+        return packageNameToUse(installedChromes, pm);
+    }
+
+    @VisibleForTesting
+    String packageNameToUse(List<String> candidates, PackageManager pm) {
         for (String chromePackage : CHROME_PACKAGES) {
-            if (installedChromes.contains(chromePackage) &&
+            if (candidates.contains(chromePackage) &&
                     supportedCustomTabs(pm, chromePackage)) {
                 return chromePackage;
             }
