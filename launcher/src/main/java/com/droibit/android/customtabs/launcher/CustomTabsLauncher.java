@@ -7,6 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 
 /**
+ * Class to launch with priority Chrome Custom Tabs.
+ *
+ * The default browser is not the Chrome, and more than one browser is installed,
+ * this time Chrome Custom Tabs does not start to direct.
+ * By using this class, Chrome is to launch with priority if it is installed.
+ *
  * @author kumagai
  */
 public final class CustomTabsLauncher {
