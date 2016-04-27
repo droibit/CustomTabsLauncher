@@ -69,7 +69,7 @@ public class CustomTabsLauncherImplTest {
                 .supportedCustomTabs(any(PackageManager.class), anyString());
 
         final List<String> candidates = singletonList(PACKAGE_STABLE);
-        final String stable = launcher.chromePackageName(candidates, null);
+        final String stable = launcher.decidePackage(null, candidates);
         assertThat(stable, equalTo(PACKAGE_STABLE));
     }
 
@@ -84,7 +84,7 @@ public class CustomTabsLauncherImplTest {
                 PACKAGE_DEV,
                 PACKAGE_BETA,
                 PACKAGE_STABLE);
-        final String stable = launcher.chromePackageName(candidates, null);
+        final String stable = launcher.decidePackage(null, candidates);
         assertThat(stable, equalTo(PACKAGE_STABLE));
     }
 
@@ -100,7 +100,7 @@ public class CustomTabsLauncherImplTest {
         final List<String> candidates = asList(
                 PACKAGE_BETA,
                 PACKAGE_STABLE);
-        final String beta = launcher.chromePackageName(candidates, null);
+        final String beta = launcher.decidePackage(null, candidates);
         assertThat(beta, equalTo(PACKAGE_BETA));
     }
 
@@ -112,7 +112,7 @@ public class CustomTabsLauncherImplTest {
                 .defaultViewHandlerPackage(any(PackageManager.class), any(Uri.class));
         doReturn(asList(PACKAGE_STABLE, PACKAGE_BETA,  PACKAGE_DEV))
                 .when(launcher)
-                .installedChromes(any(PackageManager.class));
+                .installedPackages(any(PackageManager.class));
         doReturn(true)
                 .when(launcher)
                 .supportedCustomTabs(any(PackageManager.class), anyString());

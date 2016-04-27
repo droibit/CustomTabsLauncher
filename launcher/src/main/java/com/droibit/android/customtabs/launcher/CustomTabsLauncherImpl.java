@@ -1,7 +1,6 @@
 package com.droibit.android.customtabs.launcher;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -72,13 +71,13 @@ class CustomTabsLauncherImpl {
             }
         }
 
-        final List<String> installedChromes = installedChromes(pm);
-        if (installedChromes.isEmpty()) {
+        final List<String> chromePackages = installedPackages(pm);
+        if (chromePackages.isEmpty()) {
             return null;
         }
 
         // Stable comes first.
-        return chromePackageName(installedChromes, pm);
+        return decidePackage(pm, chromePackages);
     }
 
     @Nullable
@@ -95,7 +94,7 @@ class CustomTabsLauncherImpl {
 
     @NonNull
     @VisibleForTesting
-    List<String> installedChromes(PackageManager pm) {
+    List<String> installedPackages(PackageManager pm) {
         final List<ApplicationInfo> installedApps = pm.getInstalledApplications(GET_META_DATA);
         final List<String> installedChromes = new ArrayList<>(CHROME_PACKAGES.size());
         for (ApplicationInfo app : installedApps) {
@@ -107,7 +106,7 @@ class CustomTabsLauncherImpl {
     }
 
     @VisibleForTesting
-    String chromePackageName(List<String> candidates, PackageManager pm) {
+    String decidePackage(PackageManager pm, List<String> candidates) {
         for (String chromePackage : CHROME_PACKAGES) {
             if (candidates.contains(chromePackage) &&
                     supportedCustomTabs(pm, chromePackage)) {
