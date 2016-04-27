@@ -49,7 +49,8 @@ class CustomTabsLauncherImpl {
                 @NonNull Uri uri,
                 @Nullable CustomTabsFallback fallback) {
 
-        final String chromePackage = packageNameToUse(activity, uri);
+        final PackageManager pm = activity.getPackageManager();
+        final String chromePackage = packageNameToUse(pm, uri);
         if (chromePackage == null && fallback != null) {
             fallback.openUri(activity, uri);
             return;
@@ -61,10 +62,8 @@ class CustomTabsLauncherImpl {
 
     @Nullable
     @VisibleForTesting
-    String packageNameToUse(Context context, Uri uri) {
-        final PackageManager pm = context.getPackageManager();
-
-        final String defaultPackageName = getDefaultViewHandlerPackage(pm, uri);
+    String packageNameToUse(PackageManager pm, Uri uri) {
+        final String defaultPackageName = defaultViewHandlerPackage(pm, uri);
         // If Chrome is default browser, use it.
         if (defaultPackageName != null) {
             if (CHROME_PACKAGES.contains(defaultPackageName) &&
@@ -79,12 +78,12 @@ class CustomTabsLauncherImpl {
         }
 
         // Stable comes first.
-        return packageNameToUse(installedChromes, pm);
+        return chromePackageName(installedChromes, pm);
     }
 
     @Nullable
     @VisibleForTesting
-    String getDefaultViewHandlerPackage(PackageManager pm, Uri uri) {
+    String defaultViewHandlerPackage(PackageManager pm, Uri uri) {
         // Get default VIEW intent handler.
         final Intent activityIntent = new Intent(ACTION_VIEW, uri);
         final ResolveInfo defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0);
@@ -108,7 +107,7 @@ class CustomTabsLauncherImpl {
     }
 
     @VisibleForTesting
-    String packageNameToUse(List<String> candidates, PackageManager pm) {
+    String chromePackageName(List<String> candidates, PackageManager pm) {
         for (String chromePackage : CHROME_PACKAGES) {
             if (candidates.contains(chromePackage) &&
                     supportedCustomTabs(pm, chromePackage)) {
