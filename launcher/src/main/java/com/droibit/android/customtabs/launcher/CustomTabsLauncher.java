@@ -20,10 +20,10 @@ public final class CustomTabsLauncher {
      * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
      * @param uri the Uri to be opened.
      */
-    public static void launchUrl(@NonNull Activity activity,
-                                 @NonNull CustomTabsIntent customTabsIntent,
-                                 @NonNull Uri uri) {
-        launchUrl(activity, customTabsIntent, uri, null);
+    public static void launch(@NonNull Activity activity,
+                              @NonNull CustomTabsIntent customTabsIntent,
+                              @NonNull Uri uri) {
+        launch(activity, customTabsIntent, uri, null);
     }
 
     /**
@@ -34,10 +34,10 @@ public final class CustomTabsLauncher {
      * @param uri the Uri to be opened.
      * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
      */
-    public static void launchUrl(@NonNull Activity activity,
-                                 @NonNull CustomTabsIntent customTabsIntent,
-                                 @NonNull Uri uri,
-                                 @Nullable CustomTabsFallback fallback) {
-        IMPL.launchUrl(activity, customTabsIntent, uri, fallback);
+    public static void launch(@NonNull Activity activity,
+                              @NonNull CustomTabsIntent customTabsIntent,
+                              @NonNull Uri uri,
+                              @Nullable CustomTabsFallback fallback) {
+        IMPL.launch(activity, customTabsIntent, uri, fallback);
     }
 }

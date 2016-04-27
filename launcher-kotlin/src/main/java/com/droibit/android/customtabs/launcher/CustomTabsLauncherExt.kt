@@ -11,6 +11,6 @@ import android.support.customtabs.CustomTabsIntent
  * @param uri the Uri to be opened.
  * @param fallback a [CustomTabsFallback] to be used if Custom Tabs is not available.
 */
-fun CustomTabsIntent.launchUrl(activity: Activity, uri: Uri, fallback: ((Activity, Uri)->Unit)? = null) {
-    CustomTabsLauncher.launchUrl(activity, this, uri, fallback)
+fun CustomTabsIntent.launch(activity: Activity, uri: Uri, fallback: ((Activity, Uri)->Unit)? = null) {
+    CustomTabsLauncher.launch(activity, this, uri, fallback)
 }

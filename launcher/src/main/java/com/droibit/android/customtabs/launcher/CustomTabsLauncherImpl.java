@@ -44,10 +44,10 @@ class CustomTabsLauncherImpl {
             "android.support.customtabs.action.CustomTabsService";
 
     @VisibleForTesting
-    void launchUrl(@NonNull Activity activity,
-                   @NonNull CustomTabsIntent customTabsIntent,
-                   @NonNull Uri uri,
-                   @Nullable CustomTabsFallback fallback) {
+    void launch(@NonNull Activity activity,
+                @NonNull CustomTabsIntent customTabsIntent,
+                @NonNull Uri uri,
+                @Nullable CustomTabsFallback fallback) {
 
         final String chromePackage = packageNameToUse(activity, uri);
         if (chromePackage == null && fallback != null) {
@@ -64,18 +64,39 @@ class CustomTabsLauncherImpl {
     String packageNameToUse(Context context, Uri uri) {
         final PackageManager pm = context.getPackageManager();
 
-        // Get default VIEW intent handler.
-        final Intent activityIntent = new Intent(ACTION_VIEW, uri);
-        final ResolveInfo defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0);
+        final String defaultPackageName = getDefaultViewHandlerPackage(pm, uri);
         // If Chrome is default browser, use it.
-        if (defaultViewHandlerInfo != null) {
-            final String defaultPackageName = defaultViewHandlerInfo.activityInfo.packageName;
+        if (defaultPackageName != null) {
             if (CHROME_PACKAGES.contains(defaultPackageName) &&
                     supportedCustomTabs(pm, defaultPackageName)) {
                 return defaultPackageName;
             }
         }
 
+        final List<String> installedChromes = installedChromes(pm);
+        if (installedChromes.isEmpty()) {
+            return null;
+        }
+
+        // Stable comes first.
+        return packageNameToUse(installedChromes, pm);
+    }
+
+    @Nullable
+    @VisibleForTesting
+    String getDefaultViewHandlerPackage(PackageManager pm, Uri uri) {
+        // Get default VIEW intent handler.
+        final Intent activityIntent = new Intent(ACTION_VIEW, uri);
+        final ResolveInfo defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0);
+        if (defaultViewHandlerInfo != null) {
+            return defaultViewHandlerInfo.activityInfo.packageName;
+        }
+        return null;
+    }
+
+    @NonNull
+    @VisibleForTesting
+    List<String> installedChromes(PackageManager pm) {
         final List<ApplicationInfo> installedApps = pm.getInstalledApplications(GET_META_DATA);
         final List<String> installedChromes = new ArrayList<>(CHROME_PACKAGES.size());
         for (ApplicationInfo app : installedApps) {
@@ -83,13 +104,7 @@ class CustomTabsLauncherImpl {
                 installedChromes.add(app.packageName);
             }
         }
-
-        if (installedChromes.isEmpty()) {
-            return null;
-        }
-
-        // Stable comes first.
-        return packageNameToUse(installedChromes, pm);
+        return installedChromes;
     }
 
     @VisibleForTesting

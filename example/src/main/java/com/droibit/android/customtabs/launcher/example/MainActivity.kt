@@ -7,7 +7,7 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
-import com.droibit.android.customtabs.launcher.launchUrl
+import com.droibit.android.customtabs.launcher.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,15 +44,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchFromLauncher() {
         val tabsIntent = customTabsBuilder().build()
-        CustomTabsLauncher.launchUrl(this, tabsIntent, GOOGLE)
+        CustomTabsLauncher.launch(this, tabsIntent, GOOGLE)
     }
 
     private fun launchFromKotlinLauncher() {
-        customTabsBuilder().build().launchUrl(activity = this, uri = GOOGLE)
+        customTabsBuilder().build().launch(activity = this, uri = GOOGLE)
     }
 
     private fun fallbacks() {
-        customTabsBuilder().build().launchUrl(activity = this, uri = GOOGLE) { activity, uri ->
+        customTabsBuilder().build().launch(activity = this, uri = GOOGLE) { activity, uri ->
             Toast.makeText(activity, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT).show()
         }
     }
