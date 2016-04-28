@@ -63,7 +63,7 @@ public class CustomTabsLauncherImplTest {
     }
 
     @Test
-    public void getStableChrome() {
+    public void decideStableChrome() {
         doReturn(true)
                 .when(launcher)
                 .supportedCustomTabs(any(PackageManager.class), anyString());
@@ -74,7 +74,7 @@ public class CustomTabsLauncherImplTest {
     }
 
     @Test
-    public void getStableChromeFromMultipleVersions() {
+    public void decideStableChromeFromMultipleVersions() {
         doReturn(true)
                 .when(launcher)
                 .supportedCustomTabs(any(PackageManager.class), anyString());
@@ -89,7 +89,7 @@ public class CustomTabsLauncherImplTest {
     }
 
     @Test
-    public void getBetaChrome() {
+    public void decideBetaChrome() {
         doReturn(false)
                 .when(launcher)
                 .supportedCustomTabs(any(PackageManager.class), eq(PACKAGE_STABLE));
@@ -105,7 +105,8 @@ public class CustomTabsLauncherImplTest {
     }
 
     @Test
-    public void getDefaultChromePackage() {
+    public void decideDevChromePackage() {
+        // Chrome Dev the default browser.
         doReturn(PACKAGE_DEV)
                 .when(launcher)
                 .defaultViewHandlerPackage(any(PackageManager.class), any(Uri.class));
