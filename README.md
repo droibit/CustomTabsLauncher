@@ -1,5 +1,67 @@
 # CustomTabsLauncher
+[![Build Status](https://travis-ci.org/droibit/CustomTabsLauncher.svg?branch=develop)](https://travis-ci.org/droibit/CustomTabsLauncher) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
+This library to launch the [Chrome Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) directly.
+Custom Tabs does not launch directly in the following user environment.
+
+* Multiple browser app is installed.
+* Default browser other than Chrome.
+
+Custom Tabs can be displayed as one screen of the app to customize the look & feel. For this reason, I have created a library for launching direct.
+
+## Download
+
+Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+Add the dependency
+
+```groovy
+compile 'com.github.droibit.customtabslauncher:launcher:1.0.3'
+// for kotlin
+compile 'com.github.droibit.customtabslauncher:launcher-kotlin:1.0.3'
+```
+
+## Usage
+
+Java:
+```java
+CustomTabsIntent tabsIntent = createCustomTabsIntent();
+CustomTabsLauncher.launch(
+    activity,
+    tabsIntent,
+    "https://www.google.com", // or Uri.parse(urlString)
+    new CustomTabsFallback() {
+        @Override public void openUri(@NonNull Activity activity, @NonNull Uri uri) {
+            // Fallback is optional.
+            // Launch WebView, display a toast, etc.
+        }
+    }
+);
+```
+
+Kotlin:
+
+```kotlin
+createCustomTabsIntent().launch(activity, uri = "https://www.google.com") { activity, uri ->
+    // Fallback is optional.
+    // Launch WebView, display a toast, etc.
+}
+```
+
+#### Priority of Chrome
+
+1. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome)
+2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta)
+3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev)
+4. Local(com.google.android.apps.chrome)
 
 ## License
 
