@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        support_library = "23.3.0"
-        kotlin_version = '1.0.1-2'
+        support_library = "23.4.0"
+        kotlin_version = '1.0.2'
     }
     repositories {
         jcenter()
@@ -28,8 +28,8 @@ ext {
     buildToolsVersion = "23.0.3"
     minSdkVersion = 16
     targetSdkVersion = 23
-    versionCode = 3
-    versionName = "1.0.3"
+    versionCode = 4
+    versionName = "1.0.4"
 
     ci = 'true'.equals(System.getenv('CI'))
 }
