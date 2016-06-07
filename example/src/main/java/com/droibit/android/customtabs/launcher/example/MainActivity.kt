@@ -1,5 +1,6 @@
 package com.droibit.android.customtabs.launcher.example
 
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
@@ -12,7 +13,9 @@ import com.droibit.android.customtabs.launcher.launch
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        val GOOGLE = Uri.parse("https://www.google.com")
+
+        @JvmStatic
+        private val GOOGLE = Uri.parse("https://www.google.com")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,22 +41,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchDefaultCustomTabs() {
-        val tabsIntent = customTabsBuilder().build()
-        tabsIntent.launchUrl(this, GOOGLE)
+        try {
+            val tabsIntent = customTabsBuilder().build()
+            tabsIntent.launchUrl(this, GOOGLE)
+        } catch (e: ActivityNotFoundException) {
+            showErrorToast()
+        }
     }
 
     private fun launchFromLauncher() {
-        val tabsIntent = customTabsBuilder().build()
-        CustomTabsLauncher.launch(this, tabsIntent, GOOGLE)
+        try {
+            val tabsIntent = customTabsBuilder().build()
+            CustomTabsLauncher.launch(this, tabsIntent, GOOGLE)
+        } catch (e: ActivityNotFoundException) {
+            showErrorToast()
+        }
     }
 
     private fun launchFromKotlinLauncher() {
-        customTabsBuilder().build().launch(activity = this, uri = GOOGLE)
+        try {
+            customTabsBuilder().build().launch(activity = this, uri = GOOGLE)
+        } catch (e: ActivityNotFoundException) {
+            showErrorToast()
+        }
     }
 
     private fun fallbacks() {
         customTabsBuilder().build().launch(activity = this, uri = GOOGLE) { activity, uri ->
-            Toast.makeText(activity, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT).show()
+            showErrorToast()
         }
     }
 
@@ -64,5 +79,9 @@ class MainActivity : AppCompatActivity() {
                 .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left)
                 .setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+    }
+
+    private fun showErrorToast() {
+        Toast.makeText(this, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT).show()
     }
 }
