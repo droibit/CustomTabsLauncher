@@ -24,9 +24,9 @@ allprojects {
 Add the dependency
 
 ```groovy
-compile 'com.github.droibit.customtabslauncher:launcher:1.0.4'
+compile 'com.github.droibit.customtabslauncher:launcher:LATEST_VERSION'
 // for kotlin
-compile 'com.github.droibit.customtabslauncher:launcher-kotlin:1.0.4'
+compile 'com.github.droibit.customtabslauncher:launcher-kotlin:LATEST_VERSION'
 ```
 
 ## Usage
