@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fallbacks() {
-        customTabsBuilder().build().launch(activity = this, uri = GOOGLE) { activity, uri ->
+        customTabsBuilder().build().launch(activity = this, uri = GOOGLE) { _, _ ->
             showErrorToast()
         }
     }
