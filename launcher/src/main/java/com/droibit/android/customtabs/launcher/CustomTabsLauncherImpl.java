@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 import android.support.annotation.VisibleForTesting;
 import android.support.customtabs.CustomTabsIntent;
 
@@ -17,11 +18,11 @@ import java.util.List;
 
 import static android.content.Intent.ACTION_VIEW;
 import static android.content.pm.PackageManager.GET_META_DATA;
+import static android.support.annotation.RestrictTo.Scope.LIBRARY;
+import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
 
-/**
- * @author kumagai
- */
-@VisibleForTesting
+
+@RestrictTo(LIBRARY)
 class CustomTabsLauncherImpl {
 
     @VisibleForTesting
@@ -39,10 +40,10 @@ class CustomTabsLauncherImpl {
             PACKAGE_DEV,
             PACKAGE_LOCAL);
 
-     private static final String ACTION_CUSTOM_TABS_CONNECTION =
+    private static final String ACTION_CUSTOM_TABS_CONNECTION =
             "android.support.customtabs.action.CustomTabsService";
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = PACKAGE_PRIVATE)
     void launch(@NonNull Activity activity,
                 @NonNull CustomTabsIntent customTabsIntent,
                 @NonNull Uri uri,
