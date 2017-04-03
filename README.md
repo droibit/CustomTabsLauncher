@@ -39,7 +39,7 @@ CustomTabsLauncher.launch(
     tabsIntent,
     "https://www.google.com", // or Uri.parse(urlString)
     new CustomTabsFallback() {
-        @Override public void openUri(@NonNull Activity activity, @NonNull Uri uri) {
+        @Override public void openUri(@NonNull Context context, @NonNull Uri url) {
             // Fallback is optional.
             // Launch WebView, display a toast, etc.
         }
@@ -50,7 +50,7 @@ CustomTabsLauncher.launch(
 Kotlin:
 
 ```kotlin
-createCustomTabsIntent().launch(activity, uri = "https://www.google.com") { activity, uri ->
+createCustomTabsIntent().launch(context, url = "https://www.google.com") { context, url ->
     // Fallback is optional.
     // Launch WebView, display a toast, etc.
 }
