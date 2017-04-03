@@ -59,7 +59,7 @@ public class CustomTabsLauncherImplTest {
 
         //noinspection ConstantConditions
         launcher.launch(activity, null, uri, fallback);
-        verify(fallback).openUri(any(Activity.class), any(Uri.class));
+        verify(fallback).openUrl(any(Activity.class), any(Uri.class));
     }
 
     @Test

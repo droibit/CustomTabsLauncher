@@ -1,6 +1,6 @@
 package com.droibit.android.customtabs.launcher;
 
-import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,56 +21,56 @@ public final class CustomTabsLauncher {
     /**
      * Opens the URL on a Custom Tab if possible.
      *
-     * @param activity The host activity.
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uriString the Uri to be opened.
+     * @param context          The source Context
+     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+     * @param uriString        the Uri to be opened
      */
-    public static void launch(@NonNull Activity activity,
+    public static void launch(@NonNull Context context,
                               @NonNull CustomTabsIntent customTabsIntent,
                               @NonNull String uriString) {
-        launch(activity, customTabsIntent, Uri.parse(uriString), null);
+        launch(context, customTabsIntent, Uri.parse(uriString), null);
     }
 
     /**
      * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
      *
-     * @param activity The host activity.
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uriString the Uri to be opened.
-     * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
+     * @param context          The source Context
+     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+     * @param uriString        the Uri to be opened
+     * @param fallback         a {@link CustomTabsFallback} to be used if Custom Tabs is not available
      */
-    public static void launch(@NonNull Activity activity,
+    public static void launch(@NonNull Context context,
                               @NonNull CustomTabsIntent customTabsIntent,
                               @NonNull String uriString,
                               @Nullable CustomTabsFallback fallback) {
-        launch(activity, customTabsIntent, Uri.parse(uriString), fallback);
+        launch(context, customTabsIntent, Uri.parse(uriString), fallback);
     }
 
     /**
      * Opens the URL on a Custom Tab if possible.
      *
-     * @param activity The host activity.
+     * @param context          The source Context
      * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uri the Uri to be opened.
+     * @param uri              the Uri to be opened.
      */
-    public static void launch(@NonNull Activity activity,
+    public static void launch(@NonNull Context context,
                               @NonNull CustomTabsIntent customTabsIntent,
                               @NonNull Uri uri) {
-        launch(activity, customTabsIntent, uri, null);
+        launch(context, customTabsIntent, uri, null);
     }
 
     /**
      * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
      *
-     * @param activity The host activity.
+     * @param context          The source Context
      * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uri the Uri to be opened.
-     * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
+     * @param uri              the Uri to be opened.
+     * @param fallback         a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
      */
-    public static void launch(@NonNull Activity activity,
+    public static void launch(@NonNull Context context,
                               @NonNull CustomTabsIntent customTabsIntent,
                               @NonNull Uri uri,
                               @Nullable CustomTabsFallback fallback) {
-        IMPL.launch(activity, customTabsIntent, uri, fallback);
+        IMPL.launch(context, customTabsIntent, uri, fallback);
     }
 }

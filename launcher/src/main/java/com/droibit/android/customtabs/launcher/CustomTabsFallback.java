@@ -1,6 +1,6 @@
 package com.droibit.android.customtabs.launcher;
 
-import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -10,9 +10,8 @@ import android.support.annotation.NonNull;
 public interface CustomTabsFallback {
 
     /**
-     *
-     * @param activity The Activity that wants to open the Uri.
-     * @param uri The uri to be opened by the fallback.
+     * @param context The source Context
+     * @param url     The URL to load in the Custom Tab
      */
-    void openUri(@NonNull Activity activity, @NonNull Uri uri);
+    void openUrl(@NonNull Context context, @NonNull Uri url);
 }

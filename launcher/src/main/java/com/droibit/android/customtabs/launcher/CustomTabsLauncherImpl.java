@@ -1,6 +1,6 @@
 package com.droibit.android.customtabs.launcher;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -44,20 +44,20 @@ class CustomTabsLauncherImpl {
             "android.support.customtabs.action.CustomTabsService";
 
     @VisibleForTesting(otherwise = PACKAGE_PRIVATE)
-    void launch(@NonNull Activity activity,
+    void launch(@NonNull Context context,
                 @NonNull CustomTabsIntent customTabsIntent,
                 @NonNull Uri uri,
                 @Nullable CustomTabsFallback fallback) {
 
-        final PackageManager pm = activity.getPackageManager();
+        final PackageManager pm = context.getPackageManager();
         final String chromePackage = packageNameToUse(pm, uri);
         if (chromePackage == null && fallback != null) {
-            fallback.openUri(activity, uri);
+            fallback.openUrl(context, uri);
             return;
         }
 
         customTabsIntent.intent.setPackage(chromePackage);
-        customTabsIntent.launchUrl(activity, uri);
+        customTabsIntent.launchUrl(context, uri);
     }
 
     @Nullable

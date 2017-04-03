@@ -60,14 +60,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchFromKotlinLauncher() {
         try {
-            customTabsBuilder().build().launch(activity = this, uri = GOOGLE)
+            customTabsBuilder().build().launch(context = this, url = GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
     }
 
     private fun fallbacks() {
-        customTabsBuilder().build().launch(activity = this, uri = GOOGLE) { _, _ ->
+        customTabsBuilder().build().launch(context = this, url = GOOGLE) { _, _ ->
             showErrorToast()
         }
     }
