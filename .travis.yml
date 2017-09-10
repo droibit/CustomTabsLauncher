@@ -15,7 +15,7 @@ env:
     - GRADLE_OPTS="-Xmx512m -XX:MaxPermSize=512m"
 
 script:
-  - ./gradlew clean test --info
+  - ./gradlew clean assembleDebug :launcher:test
 
 notifications:
   email: false
