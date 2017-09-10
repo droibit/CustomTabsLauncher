@@ -11,26 +11,30 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btn_default"
+        android:id="@+id/defaultButton"
         android:text="Launch Default"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="launchDefaultCustomTabs"/>
 
     <Button
-        android:id="@+id/btn_launcher"
+        android:id="@+id/launcherButton"
         android:text="Launch from Launcher"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="launchFromLauncher" />
 
     <Button
-        android:id="@+id/btn_launcher_kotlin"
+        android:id="@+id/launcherKotlinButton"
         android:text="Launch from Launcher(Kotlin)"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="launchFromKotlinLauncher" />
 
     <Button
-        android:id="@+id/btn_fallbacks"
-        android:text="Fallbacks"
+        android:id="@+id/fallbacksButton"
+        android:text="FallBacks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="fallbacks" />
 </LinearLayout>

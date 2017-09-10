@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
 import com.droibit.android.customtabs.launcher.launch
 
+@Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -21,26 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        findViewById(R.id.btn_default)?.setOnClickListener {
-            launchDefaultCustomTabs()
-        }
-
-        findViewById(R.id.btn_launcher)?.setOnClickListener {
-            launchFromLauncher()
-        }
-
-        findViewById(R.id.btn_launcher_kotlin)?.setOnClickListener {
-            launchFromKotlinLauncher()
-        }
-
-        // Try in an environment in which Chrome is not installed.
-        findViewById(R.id.btn_fallbacks)?.setOnClickListener {
-            fallbacks()
-        }
     }
 
-    private fun launchDefaultCustomTabs() {
+    fun launchDefaultCustomTabs(v: View) {
         try {
             val tabsIntent = customTabsBuilder().build()
             tabsIntent.launchUrl(this, GOOGLE)
@@ -49,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchFromLauncher() {
+    fun launchFromLauncher(v: View) {
         try {
             val tabsIntent = customTabsBuilder().build()
             CustomTabsLauncher.launch(this, tabsIntent, GOOGLE)
@@ -58,16 +43,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchFromKotlinLauncher() {
+    fun launchFromKotlinLauncher(v: View) {
         try {
-            customTabsBuilder().build().launch(context = this, url = GOOGLE)
+            customTabsBuilder().build().launch(this, url = GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
     }
 
-    private fun fallbacks() {
-        customTabsBuilder().build().launch(context = this, url = GOOGLE) { _, _ ->
+    fun fallbacks(v: View) {
+        customTabsBuilder().build().launch(this, url = GOOGLE) { _, _ ->
             showErrorToast()
         }
     }
