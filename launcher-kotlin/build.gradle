@@ -29,7 +29,7 @@ android {
 
 dependencies {
     compile project(':launcher')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 }
 
 // build a jar with source files
