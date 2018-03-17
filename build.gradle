@@ -30,8 +30,8 @@ ext {
   buildToolsVersion = "27.0.3"
   minSdkVersion = 16
   targetSdkVersion = 27
-  versionCode = 6
-  versionName = "1.0.10"
+  versionCode = 8
+  versionName = "1.0.11"
 
   ci = 'true' == System.getenv('CI')
 }
