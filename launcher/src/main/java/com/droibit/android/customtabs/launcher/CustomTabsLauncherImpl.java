@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.VisibleForTesting;
 import android.support.customtabs.CustomTabsIntent;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

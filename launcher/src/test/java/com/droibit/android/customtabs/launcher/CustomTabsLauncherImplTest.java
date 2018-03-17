@@ -54,47 +54,47 @@ public class CustomTabsLauncherImplTest {
     private CustomTabsLauncherImpl launcher;
 
     @Test
-    public void launch_launchSuccess() {
+    public void launch_launchSuccess() throws Exception {
         final Context context = when(mock(Context.class).getPackageManager())
                 .thenReturn(pm).getMock();
 
         final String packageName = "package.name.test";
         doReturn(packageName)
                 .when(launcher)
-                .packageNameToUse(((PackageManager) any()), ((Uri) any()));
+                .packageNameToUse(any(), any());
 
         final CustomTabsIntent customTabsIntent = spy(new CustomTabsIntent.Builder().build());
         final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
         //noinspection ConstantConditions
         launcher.launch(context, customTabsIntent, uri, fallback);
 
-        verify(customTabsIntent).launchUrl(((Context) any()), same(uri));
-        verify(fallback, never()).openUrl((Context) any(), (Uri) any());
+        verify(customTabsIntent).launchUrl(any(), same(uri));
+        verify(fallback, never()).openUrl(any(), any());
     }
 
     @Test
-    public void launch_launchFailed() {
+    public void launch_launchFailed() throws Exception {
         final Context context = when(mock(Context.class).getPackageManager())
                 .thenReturn(pm).getMock();
 
         final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
         doReturn(null)
                 .when(launcher)
-                .packageNameToUse(((PackageManager) any()), ((Uri) any()));
+                .packageNameToUse(any(), any());
 
         //noinspection ConstantConditions
         launcher.launch(context, null, uri, fallback);
-        verify(fallback).openUrl((Context) any(), same(uri));
+        verify(fallback).openUrl(any(), same(uri));
     }
 
     @Test
     public void packageNameToUse_useChromeAsDefault() throws Exception {
         doReturn(PACKAGE_LOCAL)
                 .when(launcher)
-                .defaultViewHandlerPackage(((PackageManager) any()), ((Uri) any()));
+                .defaultViewHandlerPackage(any(), any());
         doReturn(true)
                 .when(launcher)
-                .supportedCustomTabs(((PackageManager) any()), anyString());
+                .supportedCustomTabs(any(), anyString());
 
         final String chrome = launcher.packageNameToUse(pm, uri);
         assertThat(chrome, equalTo(PACKAGE_LOCAL));
@@ -104,10 +104,10 @@ public class CustomTabsLauncherImplTest {
     public void packageNameToUse_notInstalledChrome() throws Exception {
         doReturn(null)
                 .when(launcher)
-                .defaultViewHandlerPackage(((PackageManager) any()), ((Uri) any()));
+                .defaultViewHandlerPackage(any(), any());
         doReturn(Collections.emptyList())
                 .when(launcher)
-                .installedPackages(((PackageManager) any()));
+                .installedPackages(any());
 
         final String packageName = launcher.packageNameToUse(pm, uri);
         assertThat(packageName, is(nullValue()));
@@ -117,7 +117,7 @@ public class CustomTabsLauncherImplTest {
     public void packageNameToUse_prioritizeStableChrome() throws Exception {
         doReturn(null)
                 .when(launcher)
-                .defaultViewHandlerPackage(((PackageManager) any()), ((Uri) any()));
+                .defaultViewHandlerPackage(any(), any());
 
         final List<String> candidates = asList(
                 PACKAGE_LOCAL,
@@ -127,10 +127,10 @@ public class CustomTabsLauncherImplTest {
         );
         doReturn(candidates)
                 .when(launcher)
-                .installedPackages(((PackageManager) any()));
+                .installedPackages(any());
         doReturn(true)
                 .when(launcher)
-                .supportedCustomTabs(((PackageManager) any()), anyString());
+                .supportedCustomTabs(any(), anyString());
 
         final String stable = launcher.decidePackage(pm, candidates);
         assertThat(stable, equalTo(PACKAGE_STABLE));
