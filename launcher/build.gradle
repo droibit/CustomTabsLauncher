@@ -2,74 +2,74 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-    }
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode rootProject.ext.versionCode
+    versionName rootProject.ext.versionName
+  }
 
-    dexOptions {
-        preDexLibraries = !rootProject.ext.ci
-    }
+  dexOptions {
+    preDexLibraries = !rootProject.ext.ci
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
-    libraryVariants.all {
-        it.generateBuildConfig.enabled = false
-    }
+  // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
+  libraryVariants.all {
+    it.generateBuildConfig.enabled = false
+  }
 }
 
 dependencies {
-    compile "com.android.support:customtabs:$supportLibrary"
+  compile "com.android.support:customtabs:$supportLibrary"
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.15.0'
-    testCompile 'org.robolectric:robolectric:3.6.1'
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.mockito:mockito-core:2.15.0'
+  testCompile 'org.robolectric:robolectric:3.6.1'
 }
 
 // build a jar with source files
 task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
 }
 
 task javadoc(type: Javadoc) {
-    failOnError  false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
+  failOnError false
+  source = android.sourceSets.main.java.sourceFiles
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+  classpath += configurations.compile
 }
 
 // build a jar with javadoc
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+  classifier = 'javadoc'
+  from javadoc.destinationDir
 }
 
 artifacts {
-    archives sourcesJar
-    archives javadocJar
+  archives sourcesJar
+  archives javadocJar
 }
 
 // To specify a license in the pom:
 install {
-    repositories.mavenInstaller {
-        pom.project {
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
+  repositories.mavenInstaller {
+    pom.project {
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
         }
+      }
     }
+  }
 }

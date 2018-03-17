@@ -1,37 +1,37 @@
 buildscript {
-    ext {
-        supportLibrary = "27.1.0"
-        kotlinVersion = '1.2.30'
-    }
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
-    }
+  ext {
+    supportLibrary = "27.1.0"
+    kotlinVersion = '1.2.30'
+  }
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.0.1'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+  }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+  repositories {
+    google()
+    jcenter()
+  }
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+  delete rootProject.buildDir
 }
 
 ext {
-    compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
-    minSdkVersion = 16
-    targetSdkVersion = 27
-    versionCode = 6
-    versionName = "1.0.10"
+  compileSdkVersion = 27
+  buildToolsVersion = "27.0.3"
+  minSdkVersion = 16
+  targetSdkVersion = 27
+  versionCode = 6
+  versionName = "1.0.10"
 
-    ci = 'true' == System.getenv('CI')
+  ci = 'true' == System.getenv('CI')
 }

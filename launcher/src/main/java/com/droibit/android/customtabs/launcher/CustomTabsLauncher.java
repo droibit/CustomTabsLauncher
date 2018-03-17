@@ -16,61 +16,58 @@ import android.support.customtabs.CustomTabsIntent;
  */
 public final class CustomTabsLauncher {
 
-    private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
+  private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
 
-    /**
-     * Opens the URL on a Custom Tab if possible.
-     *
-     * @param context          The source Context
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
-     * @param uriString        the Uri to be opened
-     */
-    public static void launch(@NonNull Context context,
-                              @NonNull CustomTabsIntent customTabsIntent,
-                              @NonNull String uriString) {
-        launch(context, customTabsIntent, Uri.parse(uriString), null);
-    }
+  /**
+   * Opens the URL on a Custom Tab if possible.
+   *
+   * @param context The source Context
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+   * @param uriString the Uri to be opened
+   */
+  public static void launch(@NonNull Context context, @NonNull CustomTabsIntent customTabsIntent,
+      @NonNull String uriString) {
+    launch(context, customTabsIntent, Uri.parse(uriString), null);
+  }
 
-    /**
-     * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
-     *
-     * @param context          The source Context
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
-     * @param uriString        the Uri to be opened
-     * @param fallback         a {@link CustomTabsFallback} to be used if Custom Tabs is not available
-     */
-    public static void launch(@NonNull Context context,
-                              @NonNull CustomTabsIntent customTabsIntent,
-                              @NonNull String uriString,
-                              @Nullable CustomTabsFallback fallback) {
-        launch(context, customTabsIntent, Uri.parse(uriString), fallback);
-    }
+  /**
+   * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
+   *
+   * @param context The source Context
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+   * @param uriString the Uri to be opened
+   * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available
+   */
+  public static void launch(@NonNull Context context, @NonNull CustomTabsIntent customTabsIntent,
+      @NonNull String uriString, @Nullable CustomTabsFallback fallback) {
+    launch(context, customTabsIntent, Uri.parse(uriString), fallback);
+  }
 
-    /**
-     * Opens the URL on a Custom Tab if possible.
-     *
-     * @param context          The source Context
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uri              the Uri to be opened.
-     */
-    public static void launch(@NonNull Context context,
-                              @NonNull CustomTabsIntent customTabsIntent,
-                              @NonNull Uri uri) {
-        launch(context, customTabsIntent, uri, null);
-    }
+  /**
+   * Opens the URL on a Custom Tab if possible.
+   *
+   * @param context The source Context
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
+   * @param uri the Uri to be opened.
+   */
+  public static void launch(@NonNull Context context, @NonNull CustomTabsIntent customTabsIntent,
+      @NonNull Uri uri) {
+    launch(context, customTabsIntent, uri, null);
+  }
 
-    /**
-     * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
-     *
-     * @param context          The source Context
-     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-     * @param uri              the Uri to be opened.
-     * @param fallback         a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
-     */
-    public static void launch(@NonNull Context context,
-                              @NonNull CustomTabsIntent customTabsIntent,
-                              @NonNull Uri uri,
-                              @Nullable CustomTabsFallback fallback) {
-        IMPL.launch(context, customTabsIntent, uri, fallback);
-    }
+  /**
+   * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
+   *
+   * @param context The source Context
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
+   * @param uri the Uri to be opened.
+   * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
+   */
+  public static void launch(
+      @NonNull Context context,
+      @NonNull CustomTabsIntent customTabsIntent,
+      @NonNull Uri uri,
+      @Nullable CustomTabsFallback fallback) {
+    IMPL.launch(context, customTabsIntent, uri, fallback);
+  }
 }

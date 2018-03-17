@@ -2,31 +2,31 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultConfig {
-        applicationId "com.droibit.android.customtabs.launcher.example"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-    }
+  defaultConfig {
+    applicationId "com.droibit.android.customtabs.launcher.example"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode rootProject.ext.versionCode
+    versionName rootProject.ext.versionName
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
 }
 
 dependencies {
-    compile project(':launcher-kotlin')
-    compile "com.android.support:appcompat-v7:$supportLibrary"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+  compile project(':launcher-kotlin')
+  compile "com.android.support:appcompat-v7:$supportLibrary"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
