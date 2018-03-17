@@ -1,22 +1,23 @@
 buildscript {
     ext {
-        supportLibrary = "26.0.1"
-        kotlinVersion = '1.1.4-3'
+        supportLibrary = "27.1.0"
+        kotlinVersion = '1.2.30'
     }
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        maven { url "https://maven.google.com" }
     }
 }
 
@@ -25,10 +26,10 @@ task clean(type: Delete) {
 }
 
 ext {
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.1"
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 16
-    targetSdkVersion = 26
+    targetSdkVersion = 27
     versionCode = 6
     versionName = "1.0.10"
 
