@@ -19,7 +19,29 @@ public final class CustomTabsLauncher {
   private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
 
   /**
-   * Opens the URL on a Custom Tab if possible.
+   * Whether URL can be opened with Custom Tabs
+   *
+   * @param context The source Context
+   * @param uriString the Uri to be opened
+   * @return Can be opened if {@code true}, can not be {@code false}.
+   */
+  public static boolean canLaunch(@NonNull Context context, @NonNull String uriString) {
+    return canLaunch(context, Uri.parse(uriString));
+  }
+
+  /**
+   * Whether URL can be opened with Custom Tabs
+   *
+   * @param context The source Context
+   * @param uri the Uri to be opened
+   * @return Can be opened if {@code true}, can not be {@code false}.
+   */
+  public static boolean canLaunch(@NonNull Context context, @NonNull Uri uri) {
+    return IMPL.canLaunch(context, uri);
+  }
+
+  /**
+   * Opens the URL on a Custom Tabs if possible.
    *
    * @param context The source Context
    * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
@@ -31,7 +53,7 @@ public final class CustomTabsLauncher {
   }
 
   /**
-   * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
+   * Opens the URL on a Custom Tabs if possible. Otherwise fallsback to opening it on a WebView.
    *
    * @param context The source Context
    * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
@@ -44,10 +66,10 @@ public final class CustomTabsLauncher {
   }
 
   /**
-   * Opens the URL on a Custom Tab if possible.
+   * Opens the URL on a Custom Tabs if possible.
    *
    * @param context The source Context
-   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
    * @param uri the Uri to be opened.
    */
   public static void launch(@NonNull Context context, @NonNull CustomTabsIntent customTabsIntent,
@@ -56,11 +78,11 @@ public final class CustomTabsLauncher {
   }
 
   /**
-   * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView.
+   * Opens the URL on a Custom Tabs if possible. Otherwise fallsback to opening it on a WebView.
    *
    * @param context The source Context
-   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available.
-   * @param uri the Uri to be opened.
+   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+   * @param uri the Uri to be opened
    * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
    */
   public static void launch(

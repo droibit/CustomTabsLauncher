@@ -33,7 +33,10 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
   private static final String ACTION_CUSTOM_TABS_CONNECTION =
       "android.support.customtabs.action.CustomTabsService";
 
-  @VisibleForTesting(otherwise = PACKAGE_PRIVATE)
+  boolean canLaunch(@NonNull Context context, @NonNull Uri uri) {
+    return packageNameToUse(context.getPackageManager(), uri) != null;
+  }
+
   void launch(
       @NonNull Context context,
       @NonNull CustomTabsIntent customTabsIntent,
@@ -56,8 +59,8 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
     final String defaultPackageName = defaultViewHandlerPackage(pm, uri);
     // If Chrome is default browser, use it.
     if (defaultPackageName != null) {
-      if (CHROME_PACKAGES.contains(defaultPackageName) && supportedCustomTabs(pm,
-          defaultPackageName)) {
+      if (CHROME_PACKAGES.contains(defaultPackageName)
+          && supportedCustomTabs(pm, defaultPackageName)) {
         return defaultPackageName;
       }
     }

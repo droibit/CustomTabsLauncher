@@ -59,6 +59,11 @@ class MainActivity : AppCompatActivity() {
         }
   }
 
+  fun canLaunch(v: View) {
+    val canLaunch = CustomTabsLauncher.canLaunch(this, GOOGLE)
+    Toast.makeText(this, "can launch=$canLaunch, url=$GOOGLE", Toast.LENGTH_SHORT).show()
+  }
+
   private fun customTabsBuilder(): CustomTabsIntent.Builder {
     return CustomTabsIntent.Builder()
         .enableUrlBarHiding()

@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
@@ -39,16 +40,26 @@ import static org.mockito.Mockito.when;
 @Config(manifest = Config.NONE, sdk = 16)
 public class CustomTabsLauncherImplTest {
 
-  @Rule public MockitoRule mockito = MockitoJUnit.rule();
+  @Rule public MockitoRule rule = MockitoJUnit.rule();
 
   @Mock private PackageManager pm;
 
   @Mock private Uri uri;
 
+  @Mock private Context context;
+
   @Spy private CustomTabsLauncherImpl launcher;
 
+  @Test public void canLaunch() {
+    doReturn(PACKAGE_STABLE).when(launcher).packageNameToUse(any(), any());
+    assertThat(launcher.canLaunch(context, uri), is(true));
+
+    doReturn(null).when(launcher).packageNameToUse(any(), any());
+    assertThat(launcher.canLaunch(context, uri), is(false));
+  }
+
   @Test public void launch_launchSuccess() throws Exception {
-    final Context context = when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
+    when(context.getPackageManager()).thenReturn(pm).getMock();
 
     final String packageName = "package.name.test";
     doReturn(packageName).when(launcher).packageNameToUse(any(), any());
@@ -63,7 +74,7 @@ public class CustomTabsLauncherImplTest {
   }
 
   @Test public void launch_launchFailed() throws Exception {
-    final Context context = when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
+    when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
 
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
     doReturn(null).when(launcher).packageNameToUse(any(), any());
