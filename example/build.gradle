@@ -26,7 +26,6 @@ android {
 }
 
 dependencies {
-  compile project(':launcher-kotlin')
-  compile "com.android.support:appcompat-v7:$supportLibrary"
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+  implementation project(':launcher-kotlin')
+  implementation "com.android.support:appcompat-v7:$supportLibrary"
 }

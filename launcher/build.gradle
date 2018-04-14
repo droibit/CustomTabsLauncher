@@ -28,11 +28,11 @@ android {
 }
 
 dependencies {
-  compile "com.android.support:customtabs:$supportLibrary"
+  api "com.android.support:customtabs:$supportLibrary"
 
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.mockito:mockito-core:2.15.0'
-  testCompile 'org.robolectric:robolectric:3.6.1'
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'org.mockito:mockito-core:2.15.0'
+  testImplementation 'org.robolectric:robolectric:3.6.1'
 }
 
 // build a jar with source files
