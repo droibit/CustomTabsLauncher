@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
@@ -51,10 +50,10 @@ public class CustomTabsLauncherImplTest {
   @Spy private CustomTabsLauncherImpl launcher;
 
   @Test public void canLaunch() {
-    doReturn(PACKAGE_STABLE).when(launcher).packageNameToUse(any(), any());
+    doReturn(PACKAGE_STABLE).when(launcher).getPackageNameToUse(any(), any());
     assertThat(launcher.canLaunch(context, uri), is(true));
 
-    doReturn(null).when(launcher).packageNameToUse(any(), any());
+    doReturn(null).when(launcher).getPackageNameToUse(any(), any());
     assertThat(launcher.canLaunch(context, uri), is(false));
   }
 
@@ -62,7 +61,7 @@ public class CustomTabsLauncherImplTest {
     when(context.getPackageManager()).thenReturn(pm).getMock();
 
     final String packageName = "package.name.test";
-    doReturn(packageName).when(launcher).packageNameToUse(any(), any());
+    doReturn(packageName).when(launcher).getPackageNameToUse(any(), any());
 
     final CustomTabsIntent customTabsIntent = spy(new CustomTabsIntent.Builder().build());
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
@@ -77,35 +76,35 @@ public class CustomTabsLauncherImplTest {
     when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
 
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
-    doReturn(null).when(launcher).packageNameToUse(any(), any());
+    doReturn(null).when(launcher).getPackageNameToUse(any(), any());
 
     //noinspection ConstantConditions
     launcher.launch(context, null, uri, fallback);
     verify(fallback).openUrl(any(), same(uri));
   }
 
-  @Test public void packageNameToUse_useChromeAsDefault() throws Exception {
-    doReturn(PACKAGE_LOCAL).when(launcher).defaultViewHandlerPackage(any(), any());
+  @Test public void getPackageNameToUse_useChromeAsDefault() throws Exception {
+    doReturn(PACKAGE_LOCAL).when(launcher).getDefaultViewHandlerPackageName(any(), any());
     doReturn(true).when(launcher).supportedCustomTabs(any(), anyString());
 
-    final String chrome = launcher.packageNameToUse(pm, uri);
+    final String chrome = launcher.getPackageNameToUse(pm, uri);
     assertThat(chrome, equalTo(PACKAGE_LOCAL));
   }
 
-  @Test public void packageNameToUse_notInstalledChrome() throws Exception {
-    doReturn(null).when(launcher).defaultViewHandlerPackage(any(), any());
-    doReturn(Collections.emptyList()).when(launcher).installedPackages(any());
+  @Test public void getPackageNameToUse_notInstalledChrome() throws Exception {
+    doReturn(null).when(launcher).getDefaultViewHandlerPackageName(any(), any());
+    doReturn(Collections.emptyList()).when(launcher).getInstalledChromePackageNames(any(), any());
 
-    final String packageName = launcher.packageNameToUse(pm, uri);
+    final String packageName = launcher.getPackageNameToUse(pm, uri);
     assertThat(packageName, is(nullValue()));
   }
 
-  @Test public void packageNameToUse_prioritizeStableChrome() throws Exception {
-    doReturn(null).when(launcher).defaultViewHandlerPackage(any(), any());
+  @Test public void getPackageNameToUse_prioritizeStableChrome() throws Exception {
+    doReturn(null).when(launcher).getDefaultViewHandlerPackageName(any(), any());
 
     final List<String> candidates =
         asList(PACKAGE_LOCAL, PACKAGE_DEV, PACKAGE_BETA, PACKAGE_STABLE);
-    doReturn(candidates).when(launcher).installedPackages(any());
+    doReturn(candidates).when(launcher).getInstalledChromePackageNames(any(), any());
     doReturn(true).when(launcher).supportedCustomTabs(any(), anyString());
 
     final String stable = launcher.decidePackage(pm, candidates);

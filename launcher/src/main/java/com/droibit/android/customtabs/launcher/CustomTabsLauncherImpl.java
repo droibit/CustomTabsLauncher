@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
@@ -16,9 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Intent.ACTION_VIEW;
-import static android.content.pm.PackageManager.GET_META_DATA;
 import static android.support.annotation.RestrictTo.Scope.LIBRARY;
-import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
 
 @RestrictTo(LIBRARY) class CustomTabsLauncherImpl {
 
@@ -34,17 +33,14 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
       "android.support.customtabs.action.CustomTabsService";
 
   boolean canLaunch(@NonNull Context context, @NonNull Uri uri) {
-    return packageNameToUse(context.getPackageManager(), uri) != null;
+    return getPackageNameToUse(context.getPackageManager(), uri) != null;
   }
 
-  void launch(
-      @NonNull Context context,
-      @NonNull CustomTabsIntent customTabsIntent,
-      @NonNull Uri uri,
-      @Nullable CustomTabsFallback fallback) {
+  void launch(@NonNull Context context, @NonNull CustomTabsIntent customTabsIntent,
+      @NonNull Uri uri, @Nullable CustomTabsFallback fallback) {
 
     final PackageManager pm = context.getPackageManager();
-    final String chromePackage = packageNameToUse(pm, uri);
+    final String chromePackage = getPackageNameToUse(pm, uri);
     if (chromePackage == null && fallback != null) {
       fallback.openUrl(context, uri);
       return;
@@ -54,18 +50,18 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
     customTabsIntent.launchUrl(context, uri);
   }
 
-  @Nullable @VisibleForTesting
-  String packageNameToUse(PackageManager pm, Uri uri) {
-    final String defaultPackageName = defaultViewHandlerPackage(pm, uri);
+  @VisibleForTesting @Nullable String getPackageNameToUse(@NonNull PackageManager pm,
+      @NonNull Uri uri) {
+    final String defaultPackageName = getDefaultViewHandlerPackageName(pm, uri);
     // If Chrome is default browser, use it.
     if (defaultPackageName != null) {
-      if (CHROME_PACKAGES.contains(defaultPackageName)
-          && supportedCustomTabs(pm, defaultPackageName)) {
+      if (CHROME_PACKAGES.contains(defaultPackageName) && supportedCustomTabs(pm,
+          defaultPackageName)) {
         return defaultPackageName;
       }
     }
 
-    final List<String> chromePackages = installedPackages(pm);
+    final List<String> chromePackages = getInstalledChromePackageNames(pm, uri);
     if (chromePackages.isEmpty()) {
       return null;
     }
@@ -74,8 +70,8 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
     return decidePackage(pm, chromePackages);
   }
 
-  @Nullable @VisibleForTesting
-  String defaultViewHandlerPackage(PackageManager pm, Uri uri) {
+  @VisibleForTesting @Nullable String getDefaultViewHandlerPackageName(@NonNull PackageManager pm,
+      @NonNull Uri uri) {
     // Get default VIEW intent handler.
     final Intent activityIntent = new Intent(ACTION_VIEW, uri);
     final ResolveInfo defaultViewHandlerInfo = pm.resolveActivity(activityIntent, 0);
@@ -85,20 +81,28 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
     return null;
   }
 
-  @NonNull @VisibleForTesting
-  List<String> installedPackages(PackageManager pm) {
-    final List<ApplicationInfo> installedApps = pm.getInstalledApplications(GET_META_DATA);
+  @VisibleForTesting @NonNull List<String> getInstalledChromePackageNames(@NonNull PackageManager pm, @NonNull Uri uri) {
+    final int flag;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      flag = PackageManager.MATCH_ALL;
+    } else {
+      flag = PackageManager.MATCH_DEFAULT_ONLY;
+    }
+    final Intent activityIntent = new Intent(ACTION_VIEW, uri);
+    final List<ResolveInfo> resolveInfoList = pm.queryIntentActivities(activityIntent, flag);
+
     final List<String> installedChromes = new ArrayList<>(CHROME_PACKAGES.size());
-    for (ApplicationInfo app : installedApps) {
-      if (CHROME_PACKAGES.contains(app.packageName)) {
-        installedChromes.add(app.packageName);
+    for (ResolveInfo resolveInfo : resolveInfoList) {
+      final String packageName = resolveInfo.activityInfo.packageName;
+      if (CHROME_PACKAGES.contains(packageName)) {
+        installedChromes.add(packageName);
       }
     }
     return installedChromes;
   }
 
-  @VisibleForTesting
-  String decidePackage(PackageManager pm, List<String> candidates) {
+  @VisibleForTesting @Nullable String decidePackage(@NonNull PackageManager pm,
+      @NonNull List<String> candidates) {
     for (String chromePackage : CHROME_PACKAGES) {
       if (candidates.contains(chromePackage) && supportedCustomTabs(pm, chromePackage)) {
         return chromePackage;
@@ -107,8 +111,8 @@ import static android.support.annotation.VisibleForTesting.PACKAGE_PRIVATE;
     return null;
   }
 
-  @VisibleForTesting
-  boolean supportedCustomTabs(PackageManager pm, String chromePackage) {
+  @VisibleForTesting boolean supportedCustomTabs(@NonNull PackageManager pm,
+      @NonNull String chromePackage) {
     // Whether support Chrome Custom Tabs.
     final Intent serviceIntent =
         new Intent(ACTION_CUSTOM_TABS_CONNECTION).setPackage(chromePackage);

@@ -11,7 +11,7 @@ public interface CustomTabsFallback {
 
   /**
    * @param context The source Context
-   * @param url The URL to load in the Custom Tab
+   * @param uri The Uri to load in the Custom Tab
    */
-  void openUrl(@NonNull Context context, @NonNull Uri url);
+  void openUrl(@NonNull Context context, @NonNull Uri uri);
 }
