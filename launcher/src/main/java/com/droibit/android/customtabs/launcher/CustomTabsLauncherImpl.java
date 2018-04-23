@@ -2,7 +2,6 @@ package com.droibit.android.customtabs.launcher;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -81,7 +80,8 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY;
     return null;
   }
 
-  @VisibleForTesting @NonNull List<String> getInstalledChromePackageNames(@NonNull PackageManager pm, @NonNull Uri uri) {
+  @VisibleForTesting @NonNull List<String> getInstalledChromePackageNames(
+      @NonNull PackageManager pm, @NonNull Uri uri) {
     final int flag;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       flag = PackageManager.MATCH_ALL;
