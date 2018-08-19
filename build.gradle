@@ -1,14 +1,14 @@
 buildscript {
   ext {
     supportLibrary = "27.1.1"
-    kotlinVersion = '1.2.40'
+    kotlinVersion = '1.2.60'
   }
   repositories {
     google()
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.1'
+    classpath 'com.android.tools.build:gradle:3.1.4'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
   }
@@ -27,7 +27,6 @@ task clean(type: Delete) {
 
 ext {
   compileSdkVersion = 27
-  buildToolsVersion = "27.0.3"
   minSdkVersion = 16
   targetSdkVersion = 27
   versionCode = 10
