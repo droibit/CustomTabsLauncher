@@ -37,9 +37,12 @@ CustomTabsIntent tabsIntent = createCustomTabsIntent();
 CustomTabsLauncher.launch(
     activity,
     tabsIntent,
-    "https://www.google.com", // or Uri.parse(urlString)
+    Uri.parse("https://www.google.com"),
     new CustomTabsFallback() {
-        @Override public void openUri(@NonNull Context context, @NonNull Uri url) {
+        @Override public void openUri(
+          @NonNull Context context,
+          @NonNull Uri url,
+          @NonNull CustomTabsintent customTabsintent) {
             // Fallback is optional.
             // Launch WebView, display a toast, etc.
         }
@@ -50,7 +53,7 @@ CustomTabsLauncher.launch(
 Kotlin:
 
 ```kotlin
-createCustomTabsIntent().launch(context, url = "https://www.google.com") { context, url ->
+createCustomTabsIntent().launch(context, url = "https://www.google.com") { context, url, customTabsintent ->
     // Fallback is optional.
     // Launch WebView, display a toast, etc.
 }
@@ -62,6 +65,27 @@ createCustomTabsIntent().launch(context, url = "https://www.google.com") { conte
 2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta)
 3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev)
 4. Local(com.google.android.apps.chrome)
+
+#### Launch non-Chrome browsers as Fallback
+
+This library officially supports Chrome,   
+but provides `LaunchNonChromeCustomTabsFallback` as a helper class for directly launching other browsers that support CustomTabs.
+
+```Java
+static import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabsFallback;
+
+final exampleNonChromePackages = Arrays.asList(
+  "org.mozilla.firefox",
+  "com.microsoft.emmx",
+);
+
+CustomTabsLauncher.launch(
+    activity,
+    tabsIntent,
+    Uri.parse("https://www.google.com"),
+    new LaunchNonChromeCustomTabsFallback(exampleNonChromePackages)
+);
+```
 
 ## License
 
