@@ -9,16 +9,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
+import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabsFallback
+import com.droibit.android.customtabs.launcher.CustomTabsLauncher.launch
 import com.droibit.android.customtabs.launcher.launch
 
 @Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity() {
-
-  companion object {
-
-    @JvmStatic
-    private val GOOGLE = Uri.parse("https://www.google.com")
-  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -28,7 +24,7 @@ class MainActivity : AppCompatActivity() {
   fun launchDefaultCustomTabs(v: View) {
     try {
       val tabsIntent = customTabsBuilder().build()
-      tabsIntent.launchUrl(this, GOOGLE)
+      tabsIntent.launchUrl(this, URI_GOOGLE)
     } catch (e: ActivityNotFoundException) {
       showErrorToast()
     }
@@ -37,7 +33,7 @@ class MainActivity : AppCompatActivity() {
   fun launchFromLauncher(v: View) {
     try {
       val tabsIntent = customTabsBuilder().build()
-      CustomTabsLauncher.launch(this, tabsIntent, GOOGLE)
+      launch(this, tabsIntent, URI_GOOGLE)
     } catch (e: ActivityNotFoundException) {
       showErrorToast()
     }
@@ -46,22 +42,26 @@ class MainActivity : AppCompatActivity() {
   fun launchFromKotlinLauncher(v: View) {
     try {
       customTabsBuilder().build()
-          .launch(this, url = GOOGLE)
+          .launch(this, URI_GOOGLE)
     } catch (e: ActivityNotFoundException) {
       showErrorToast()
     }
   }
 
   fun fallbacks(v: View) {
-    customTabsBuilder().build()
-        .launch(this, url = GOOGLE) { _, _ ->
-          showErrorToast()
-        }
-  }
-
-  fun canLaunch(v: View) {
-    val canLaunch = CustomTabsLauncher.canLaunch(this, GOOGLE)
-    Toast.makeText(this, "can launch=$canLaunch, url=$GOOGLE", Toast.LENGTH_SHORT).show()
+    val customTabsIntent = customTabsBuilder().build()
+    CustomTabsLauncher.launch(
+        this,
+        customTabsIntent,
+        URI_GOOGLE,
+        LaunchNonChromeCustomTabsFallback(
+            listOf(
+                "com.microsoft.emmx",
+                "org.mozilla.firefox",
+                "org.mozilla.firefox_beta"
+            )
+        )
+    )
   }
 
   private fun customTabsBuilder(): CustomTabsIntent.Builder {
@@ -77,5 +77,11 @@ class MainActivity : AppCompatActivity() {
   private fun showErrorToast() {
     Toast.makeText(this, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT)
         .show()
+  }
+
+  companion object {
+
+    @JvmStatic
+    private val URI_GOOGLE = Uri.parse("https://www.google.com")
   }
 }

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
-import java.util.Collections;
-import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,18 +14,9 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.droibit.android.customtabs.launcher.CustomTabsLauncherImpl.PACKAGE_BETA;
-import static com.droibit.android.customtabs.launcher.CustomTabsLauncherImpl.PACKAGE_DEV;
-import static com.droibit.android.customtabs.launcher.CustomTabsLauncherImpl.PACKAGE_LOCAL;
-import static com.droibit.android.customtabs.launcher.CustomTabsLauncherImpl.PACKAGE_STABLE;
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -49,65 +38,30 @@ public class CustomTabsLauncherImplTest {
 
   @Spy private CustomTabsLauncherImpl launcher;
 
-  @Test public void canLaunch() {
-    doReturn(PACKAGE_STABLE).when(launcher).getPackageNameToUse(any(), any());
-    assertThat(launcher.canLaunch(context, uri), is(true));
-
-    doReturn(null).when(launcher).getPackageNameToUse(any(), any());
-    assertThat(launcher.canLaunch(context, uri), is(false));
-  }
-
-  @Test public void launch_launchSuccess() throws Exception {
-    when(context.getPackageManager()).thenReturn(pm).getMock();
+  @Test public void launch_launchSuccess() {
+    when(context.getPackageManager()).thenReturn(pm);
 
     final String packageName = "package.name.test";
-    doReturn(packageName).when(launcher).getPackageNameToUse(any(), any());
+    doReturn(packageName).when(launcher).getPackageNameToUse(any(), any(), any());
 
     final CustomTabsIntent customTabsIntent = spy(new CustomTabsIntent.Builder().build());
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
     //noinspection ConstantConditions
-    launcher.launch(context, customTabsIntent, uri, fallback);
+    launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
 
     verify(customTabsIntent).launchUrl(any(), same(uri));
-    verify(fallback, never()).openUrl(any(), any());
+    verify(fallback, never()).openUrl(any(), any(), same(customTabsIntent));
   }
 
-  @Test public void launch_launchFailed() throws Exception {
+  @Test public void launch_launchFailed() {
     when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
 
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
-    doReturn(null).when(launcher).getPackageNameToUse(any(), any());
+    doReturn(null).when(launcher).getPackageNameToUse(any(), any(), any());
 
+    final CustomTabsIntent customTabsIntent = mock(CustomTabsIntent.class);
     //noinspection ConstantConditions
-    launcher.launch(context, null, uri, fallback);
-    verify(fallback).openUrl(any(), same(uri));
-  }
-
-  @Test public void getPackageNameToUse_useChromeAsDefault() throws Exception {
-    doReturn(PACKAGE_LOCAL).when(launcher).getDefaultViewHandlerPackageName(any(), any());
-    doReturn(true).when(launcher).supportedCustomTabs(any(), anyString());
-
-    final String chrome = launcher.getPackageNameToUse(pm, uri);
-    assertThat(chrome, equalTo(PACKAGE_LOCAL));
-  }
-
-  @Test public void getPackageNameToUse_notInstalledChrome() throws Exception {
-    doReturn(null).when(launcher).getDefaultViewHandlerPackageName(any(), any());
-    doReturn(Collections.emptyList()).when(launcher).getInstalledChromePackageNames(any(), any());
-
-    final String packageName = launcher.getPackageNameToUse(pm, uri);
-    assertThat(packageName, is(nullValue()));
-  }
-
-  @Test public void getPackageNameToUse_prioritizeStableChrome() throws Exception {
-    doReturn(null).when(launcher).getDefaultViewHandlerPackageName(any(), any());
-
-    final List<String> candidates =
-        asList(PACKAGE_LOCAL, PACKAGE_DEV, PACKAGE_BETA, PACKAGE_STABLE);
-    doReturn(candidates).when(launcher).getInstalledChromePackageNames(any(), any());
-    doReturn(true).when(launcher).supportedCustomTabs(any(), anyString());
-
-    final String stable = launcher.decidePackage(pm, candidates);
-    assertThat(stable, equalTo(PACKAGE_STABLE));
+    launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
+    verify(fallback).openUrl(any(), same(uri), same(customTabsIntent));
   }
 }
