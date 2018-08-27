@@ -14,7 +14,7 @@ import android.support.customtabs.CustomTabsIntent
 fun CustomTabsIntent.launch(
   context: Context,
   url: String,
-  fallback: ((Context, Uri) -> Unit)? = null
+  fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
 ) {
   CustomTabsLauncher.launch(context, this, Uri.parse(url), fallback)
 }
@@ -29,7 +29,7 @@ fun CustomTabsIntent.launch(
 fun CustomTabsIntent.launch(
   context: Context,
   url: Uri,
-  fallback: ((Context, Uri) -> Unit)? = null
+  fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
 ) {
   CustomTabsLauncher.launch(context, this, url, fallback)
 }
