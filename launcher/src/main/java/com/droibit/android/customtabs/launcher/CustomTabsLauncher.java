@@ -19,26 +19,8 @@ public final class CustomTabsLauncher {
   private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
 
   /**
-   * Whether URL can be opened with Custom Tabs
-   *
-   * @param context The source Context
-   * @param uriString the Uri to be opened
-   * @return Can be opened if {@code true}, can not be {@code false}.
    */
-  public static boolean canLaunch(@NonNull Context context, @NonNull String uriString) {
-    return canLaunch(context, Uri.parse(uriString));
-  }
 
-  /**
-   * Whether URL can be opened with Custom Tabs
-   *
-   * @param context The source Context
-   * @param uri the Uri to be opened
-   * @return Can be opened if {@code true}, can not be {@code false}.
-   */
-  public static boolean canLaunch(@NonNull Context context, @NonNull Uri uri) {
-    return IMPL.canLaunch(context, uri);
-  }
 
   /**
    * Opens the URL on a Custom Tabs if possible.
