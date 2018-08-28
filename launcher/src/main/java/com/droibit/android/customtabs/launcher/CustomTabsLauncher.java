@@ -43,6 +43,17 @@ public final class CustomTabsLauncher {
 
     private final List<String> customTabsPackages;
 
+    private final CustomTabsFallback launchAnyBrowserFallback = new CustomTabsFallback() {
+      @Override public void openUrl(
+          @NonNull Context context,
+          @NonNull Uri uri,
+          @NonNull CustomTabsIntent customTabsIntent) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
+            .setFlags(customTabsIntent.intent.getFlags());
+        context.startActivity(intent);
+      }
+    };
+
     /**
      * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
      */
@@ -55,11 +66,7 @@ public final class CustomTabsLauncher {
         @NonNull Context context,
         @NonNull Uri uri,
         @NonNull CustomTabsIntent customTabsIntent) {
-      IMPL.launch(context, customTabsIntent, uri, customTabsPackages, (c, u, i) -> {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
-            .setFlags(customTabsIntent.intent.getFlags());
-        context.startActivity(intent);
-      });
+      IMPL.launch(context, customTabsIntent, uri, customTabsPackages, launchAnyBrowserFallback);
     }
   }
 
