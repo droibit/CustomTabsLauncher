@@ -17,7 +17,7 @@ import static com.droibit.android.customtabs.launcher.ChromePackage.CHROME_PACKA
  * A utility class that directly launches a browser that supports Custom Tabs.<br/>
  * <p>
  * This library try to launch Chrome(s) as the default behavior,
- * but if they are not installed you can launch a browser that supports other Custom Tabs using {@link LaunchNonChromeCustomTabsFallback}.
+ * but if they are not installed you can launch a browser that supports other Custom Tabs using {@link LaunchNonChromeCustomTabs}.
  * </p>
  * <h3>Basic usage:</h3>
  * <pre>{@code
@@ -37,27 +37,31 @@ import static com.droibit.android.customtabs.launcher.ChromePackage.CHROME_PACKA
 public final class CustomTabsLauncher {
 
   /**
+   * Fallback for launch the browser installed on the device.
+   */
+  public static class LaunchBrowser implements CustomTabsFallback {
+
+    @Override public void openUrl(
+        @NonNull Context context,
+        @NonNull Uri uri,
+        @NonNull CustomTabsIntent customTabsIntent) {
+      final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
+          .setFlags(customTabsIntent.intent.getFlags());
+      context.startActivity(intent);
+    }
+  }
+
+  /**
    * Fallback for launch a non-Chrome browser that supports Custom Tabs.
    */
-  public static class LaunchNonChromeCustomTabsFallback implements CustomTabsFallback {
+  public static class LaunchNonChromeCustomTabs implements CustomTabsFallback {
 
     private final List<String> customTabsPackages;
-
-    private final CustomTabsFallback launchAnyBrowserFallback = new CustomTabsFallback() {
-      @Override public void openUrl(
-          @NonNull Context context,
-          @NonNull Uri uri,
-          @NonNull CustomTabsIntent customTabsIntent) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
-            .setFlags(customTabsIntent.intent.getFlags());
-        context.startActivity(intent);
-      }
-    };
 
     /**
      * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
      */
-    public LaunchNonChromeCustomTabsFallback(
+    public LaunchNonChromeCustomTabs(
         @NonNull @Size(min = 1) List<String> customTabsPackages) {
       this.customTabsPackages = customTabsPackages;
     }
@@ -66,7 +70,7 @@ public final class CustomTabsLauncher {
         @NonNull Context context,
         @NonNull Uri uri,
         @NonNull CustomTabsIntent customTabsIntent) {
-      IMPL.launch(context, customTabsIntent, uri, customTabsPackages, launchAnyBrowserFallback);
+      IMPL.launch(context, customTabsIntent, uri, customTabsPackages, new LaunchBrowser());
     }
   }
 

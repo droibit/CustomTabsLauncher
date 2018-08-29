@@ -72,18 +72,18 @@ This library officially supports Chrome,
 but provides `LaunchNonChromeCustomTabsFallback` as a helper class for directly launching other browsers that support CustomTabs.
 
 ```Java
-static import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabsFallback;
+static import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs;
 
 final exampleNonChromePackages = Arrays.asList(
   "org.mozilla.firefox",
-  "com.microsoft.emmx",
+  "com.microsoft.emmx"
 );
 
 CustomTabsLauncher.launch(
     activity,
     tabsIntent,
     Uri.parse("https://www.google.com"),
-    new LaunchNonChromeCustomTabsFallback(exampleNonChromePackages)
+    new LaunchNonChromeCustomTabs(exampleNonChromePackages)
 );
 ```
 

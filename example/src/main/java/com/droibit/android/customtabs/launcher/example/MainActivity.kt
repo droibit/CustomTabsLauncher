@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
-import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabsFallback
+import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher.launch
 import com.droibit.android.customtabs.launcher.launch
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         this,
         customTabsIntent,
         URI_GOOGLE,
-        LaunchNonChromeCustomTabsFallback(
+        LaunchNonChromeCustomTabs(
             listOf(
                 "com.microsoft.emmx",
                 "org.mozilla.firefox",
