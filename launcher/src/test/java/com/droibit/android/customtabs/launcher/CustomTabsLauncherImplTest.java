@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,26 +43,37 @@ public class CustomTabsLauncherImplTest {
     when(context.getPackageManager()).thenReturn(pm);
 
     final String packageName = "package.name.test";
-    doReturn(packageName).when(launcher).getPackageNameToUse(any(), any(), any());
+    doReturn(packageName).when(launcher).getPackageNameToUse(
+        ((PackageManager) any()),
+        ((List<String>) any()),
+        ((Uri) any())
+    );
 
     final CustomTabsIntent customTabsIntent = spy(new CustomTabsIntent.Builder().build());
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
     //noinspection ConstantConditions
     launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
 
-    verify(customTabsIntent).launchUrl(any(), same(uri));
-    verify(fallback, never()).openUrl(any(), any(), same(customTabsIntent));
+    verify(customTabsIntent).launchUrl(((Context) any()), same(uri));
+    verify(fallback, never()).openUrl(
+        ((Context) any()),
+        ((Uri) any()),
+        same(customTabsIntent));
   }
 
   @Test public void launch_launchFailed() {
     when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
 
     final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
-    doReturn(null).when(launcher).getPackageNameToUse(any(), any(), any());
+    doReturn(null).when(launcher).getPackageNameToUse(
+        ((PackageManager) any()),
+        ((List<String>) any()),
+        ((Uri) any())
+    );
 
     final CustomTabsIntent customTabsIntent = mock(CustomTabsIntent.class);
     //noinspection ConstantConditions
     launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
-    verify(fallback).openUrl(any(), same(uri), same(customTabsIntent));
+    verify(fallback).openUrl(((Context) any()), same(uri), same(customTabsIntent));
   }
 }
