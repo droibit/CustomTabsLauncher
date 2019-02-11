@@ -3,7 +3,7 @@ package com.droibit.android.customtabs.launcher;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsIntent;
 import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;

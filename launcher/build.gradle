@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-  api "com.android.support:customtabs:$supportLibrary"
+  api "androidx.browser:browser:$supportLibrary"
 
   testImplementation 'junit:junit:4.12'
   testImplementation 'org.mockito:mockito-core:2.15.0'

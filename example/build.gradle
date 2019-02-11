@@ -31,5 +31,5 @@ android {
 
 dependencies {
   implementation project(':launcher-kotlin')
-  implementation "com.android.support:appcompat-v7:$supportLibrary"
+  implementation "androidx.appcompat:appcompat:$supportLibrary"
 }

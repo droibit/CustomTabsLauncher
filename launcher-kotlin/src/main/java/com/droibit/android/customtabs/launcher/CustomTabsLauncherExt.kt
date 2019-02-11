@@ -2,7 +2,7 @@ package com.droibit.android.customtabs.launcher
 
 import android.content.Context
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent
 
 /**
  * Opens the URL on a Custom Tab if possible. Otherwise fallback to opening it on a WebView.
