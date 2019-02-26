@@ -1,6 +1,6 @@
 package com.droibit.android.customtabs.launcher;
 
-import android.support.annotation.RestrictTo;
+import androidx.annotation.RestrictTo;
 import java.util.Arrays;
 import java.util.List;
 

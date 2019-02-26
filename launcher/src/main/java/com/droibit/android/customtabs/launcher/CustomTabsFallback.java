@@ -2,8 +2,8 @@ package com.droibit.android.customtabs.launcher;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.customtabs.CustomTabsIntent;
+import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 /**
  * To be used as a fallback to open the Uri when Custom Tabs is not available.
