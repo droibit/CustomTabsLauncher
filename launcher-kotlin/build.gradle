@@ -32,7 +32,7 @@ android {
 
 dependencies {
     api project(':launcher')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }
 
 // build a jar with source files
