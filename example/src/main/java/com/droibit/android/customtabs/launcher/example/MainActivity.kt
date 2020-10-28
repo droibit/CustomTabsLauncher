@@ -2,7 +2,6 @@ package com.droibit.android.customtabs.launcher.example
 
 import android.content.ActivityNotFoundException
 import android.net.Uri
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +13,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsLauncher.launch
 import com.droibit.android.customtabs.launcher.launch
 
 @Suppress("UNUSED_PARAMETER")
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     fun launchDefaultCustomTabs(v: View) {
         try {

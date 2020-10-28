@@ -54,7 +54,6 @@ public class CustomTabsLauncherImplTest {
 
         final CustomTabsIntent customTabsIntent = spy(new CustomTabsIntent.Builder().build());
         final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
-        //noinspection ConstantConditions
         launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
 
         verify(customTabsIntent).launchUrl(any(), same(uri));
@@ -63,13 +62,10 @@ public class CustomTabsLauncherImplTest {
 
     @Test
     public void launch_launchFailed() {
-        when(mock(Context.class).getPackageManager()).thenReturn(pm).getMock();
-
         final CustomTabsFallback fallback = mock(CustomTabsFallback.class);
         doReturn(null).when(launcher).getPackageNameToUse(any(), any(), any());
 
         final CustomTabsIntent customTabsIntent = mock(CustomTabsIntent.class);
-        //noinspection ConstantConditions
         launcher.launch(context, customTabsIntent, uri, singletonList("dummy"), fallback);
         verify(fallback).openUrl(any(), same(uri), same(customTabsIntent));
     }
