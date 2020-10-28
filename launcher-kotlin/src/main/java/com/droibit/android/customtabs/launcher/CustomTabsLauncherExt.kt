@@ -12,11 +12,11 @@ import androidx.browser.customtabs.CustomTabsIntent
  * @param fallback a [CustomTabsFallback] to be used if Custom Tabs is not available.
  */
 fun CustomTabsIntent.launch(
-  context: Context,
-  url: String,
-  fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
+        context: Context,
+        url: String,
+        fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
 ) {
-  CustomTabsLauncher.launch(context, this, Uri.parse(url), fallback)
+    CustomTabsLauncher.launch(context, this, Uri.parse(url), fallback)
 }
 
 /**
@@ -27,9 +27,9 @@ fun CustomTabsIntent.launch(
  * @param fallback a [CustomTabsFallback] to be used if Custom Tabs is not available.
  */
 fun CustomTabsIntent.launch(
-  context: Context,
-  url: Uri,
-  fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
+        context: Context,
+        url: Uri,
+        fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
 ) {
-  CustomTabsLauncher.launch(context, this, url, fallback)
+    CustomTabsLauncher.launch(context, this, url, fallback)
 }

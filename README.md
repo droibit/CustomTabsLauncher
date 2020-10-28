@@ -1,5 +1,5 @@
 # CustomTabsLauncher
-[![Build Status](https://travis-ci.org/droibit/CustomTabsLauncher.svg?branch=develop)](https://travis-ci.org/droibit/CustomTabsLauncher) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
+[![Android CI](https://github.com/droibit/CustomTabsLauncher/workflows/Android%20CI/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions?query=workflow%3A%22Android+CI%22) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
 This library to launch the [Chrome Custom Tabs](https://developer.chrome.com/multidevice/android/customtabs) directly.
 Custom Tabs does not launch directly in the following user environment.

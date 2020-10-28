@@ -3,11 +3,13 @@ package com.droibit.android.customtabs.launcher;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.Size;
 import androidx.browser.customtabs.CustomTabsIntent;
+
 import java.util.List;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY;
@@ -36,74 +38,76 @@ import static com.droibit.android.customtabs.launcher.ChromePackage.CHROME_PACKA
  */
 public final class CustomTabsLauncher {
 
-  /**
-   * Fallback for launch the browser installed on the device.
-   */
-  public static class LaunchBrowser implements CustomTabsFallback {
+    /**
+     * Fallback for launch the browser installed on the device.
+     */
+    public static class LaunchBrowser implements CustomTabsFallback {
 
-    @Override public void openUrl(
-        @NonNull Context context,
-        @NonNull Uri uri,
-        @NonNull CustomTabsIntent customTabsIntent) {
-      final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
-          .setFlags(customTabsIntent.intent.getFlags());
-      context.startActivity(intent);
+        @Override
+        public void openUrl(
+                @NonNull Context context,
+                @NonNull Uri uri,
+                @NonNull CustomTabsIntent customTabsIntent) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW, uri)
+                    .setFlags(customTabsIntent.intent.getFlags());
+            context.startActivity(intent);
+        }
     }
-  }
-
-  /**
-   * Fallback for launch a non-Chrome browser that supports Custom Tabs.
-   */
-  public static class LaunchNonChromeCustomTabs implements CustomTabsFallback {
-
-    private final List<String> customTabsPackages;
 
     /**
-     * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
+     * Fallback for launch a non-Chrome browser that supports Custom Tabs.
      */
-    public LaunchNonChromeCustomTabs(
-        @NonNull @Size(min = 1) List<String> customTabsPackages) {
-      this.customTabsPackages = customTabsPackages;
+    public static class LaunchNonChromeCustomTabs implements CustomTabsFallback {
+
+        private final List<String> customTabsPackages;
+
+        /**
+         * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
+         */
+        public LaunchNonChromeCustomTabs(
+                @NonNull @Size(min = 1) List<String> customTabsPackages) {
+            this.customTabsPackages = customTabsPackages;
+        }
+
+        @Override
+        public void openUrl(
+                @NonNull Context context,
+                @NonNull Uri uri,
+                @NonNull CustomTabsIntent customTabsIntent) {
+            IMPL.launch(context, customTabsIntent, uri, customTabsPackages, new LaunchBrowser());
+        }
     }
 
-    @Override public void openUrl(
-        @NonNull Context context,
-        @NonNull Uri uri,
-        @NonNull CustomTabsIntent customTabsIntent) {
-      IMPL.launch(context, customTabsIntent, uri, customTabsPackages, new LaunchBrowser());
+    @RestrictTo(LIBRARY)
+    private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
+
+    /**
+     * Opens the URL on a Custom Tabs if possible.
+     *
+     * @param context          The source Context
+     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+     * @param uri              the Uri to be opened.
+     */
+    public static void launch(
+            @NonNull Context context,
+            @NonNull CustomTabsIntent customTabsIntent,
+            @NonNull Uri uri) {
+        launch(context, customTabsIntent, uri, null);
     }
-  }
 
-  @RestrictTo(LIBRARY)
-  private static final CustomTabsLauncherImpl IMPL = new CustomTabsLauncherImpl();
-
-  /**
-   * Opens the URL on a Custom Tabs if possible.
-   *
-   * @param context The source Context
-   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
-   * @param uri the Uri to be opened.
-   */
-  public static void launch(
-      @NonNull Context context,
-      @NonNull CustomTabsIntent customTabsIntent,
-      @NonNull Uri uri) {
-    launch(context, customTabsIntent, uri, null);
-  }
-
-  /**
-   * Opens the URL on a Custom Tabs if possible. Otherwise fallsback to opening it on a WebView.
-   *
-   * @param context The source Context
-   * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
-   * @param uri the Uri to be opened
-   * @param fallback a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
-   */
-  public static void launch(
-      @NonNull Context context,
-      @NonNull CustomTabsIntent customTabsIntent,
-      @NonNull Uri uri,
-      @Nullable CustomTabsFallback fallback) {
-    IMPL.launch(context, customTabsIntent, uri, CHROME_PACKAGES, fallback);
-  }
+    /**
+     * Opens the URL on a Custom Tabs if possible. Otherwise fallsback to opening it on a WebView.
+     *
+     * @param context          The source Context
+     * @param customTabsIntent a CustomTabsIntent to be used if Custom Tabs is available
+     * @param uri              the Uri to be opened
+     * @param fallback         a {@link CustomTabsFallback} to be used if Custom Tabs is not available.
+     */
+    public static void launch(
+            @NonNull Context context,
+            @NonNull CustomTabsIntent customTabsIntent,
+            @NonNull Uri uri,
+            @Nullable CustomTabsFallback fallback) {
+        IMPL.launch(context, customTabsIntent, uri, CHROME_PACKAGES, fallback);
+    }
 }
