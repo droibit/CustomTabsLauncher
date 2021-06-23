@@ -32,8 +32,8 @@ implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
 ```kotlin
 val tabsIntent = createCustomTabsIntent();
 CustomTabsLauncher.launch(
-    activity,
-    tabsIntent,
+    context,
+    customTabsIntent,
     Uri.parse("https://www.google.com"),
 ) { context, uri, customTabsIntent ->
     // Fallback is optional.
@@ -69,10 +69,12 @@ val exampleNonChromePackages = listOf(
 )
 
 CustomTabsLauncher.launch(
-    activity,
-    tabsIntent,
+    context,
+    customTabsIntent,
     Uri.parse("https://www.google.com"),
     LaunchNonChromeCustomTabs(exampleNonChromePackages)
+    // or Specify browser apps that supports Custom Tabs that is not Chrome installed on a device.
+    // LaunchNonChromeCustomTabs(context)
 )
 ```
 
