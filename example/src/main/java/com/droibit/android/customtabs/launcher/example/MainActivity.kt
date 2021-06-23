@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     fun launchFromKotlinLauncher(v: View) {
         try {
             customTabsBuilder().build()
-                    .launch(this, URI_GOOGLE)
+                .launch(this, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
@@ -44,32 +45,38 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     fun fallbacks(v: View) {
         val customTabsIntent = customTabsBuilder().build()
         CustomTabsLauncher.launch(
-                this,
-                customTabsIntent,
-                URI_GOOGLE,
-                LaunchNonChromeCustomTabs(
-                        listOf(
-                                "com.microsoft.emmx",
-                                "org.mozilla.firefox",
-                                "org.mozilla.firefox_beta"
-                        )
+            this,
+            customTabsIntent,
+            URI_GOOGLE,
+            LaunchNonChromeCustomTabs(
+                listOf(
+                    "com.microsoft.emmx",
+                    "org.mozilla.firefox",
+                    "org.mozilla.firefox_beta"
                 )
+            )
         )
     }
 
     private fun customTabsBuilder(): CustomTabsIntent.Builder {
         return CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setShowTitle(true)
-                .addDefaultShareMenuItem()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left)
-                .setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            .setUrlBarHidingEnabled(true)
+            .setShowTitle(true)
+            .setShareState(CustomTabsIntent.SHARE_STATE_ON)
+            .setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(
+                        ContextCompat.getColor(this, R.color.colorPrimary)
+                    )
+                    .build()
+            )
+            .setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left)
+            .setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
 
     private fun showErrorToast() {
         Toast.makeText(this, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT)
-                .show()
+            .show()
     }
 
     companion object {
