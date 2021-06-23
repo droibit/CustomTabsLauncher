@@ -1,1 +1,1 @@
-include ':example', ':launcher', ':launcher-kotlin'
+include ':example', ':launcher'

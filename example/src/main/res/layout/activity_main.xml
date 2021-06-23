@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/launcherKotlinButton"
-        android:text="Launch from Launcher(Kotlin)"
+        android:text="Launch from Launcher(Kotlin ext)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="launchFromKotlinLauncher" />
