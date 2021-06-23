@@ -5,31 +5,31 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 
 /**
- * Opens the URL on a Custom Tab if possible. Otherwise fallback to opening it on a WebView.
+ * Attempt to open the URL directly in a browser that supports Custom Tabs.
  *
  * @param context The source Context
  * @param url the Uri to be opened
  * @param fallback a [CustomTabsFallback] to be used if Custom Tabs is not available.
  */
 fun CustomTabsIntent.launch(
-        context: Context,
-        url: String,
-        fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
+    context: Context,
+    url: String,
+    fallback: CustomTabsFallback? = null
 ) {
     CustomTabsLauncher.launch(context, this, Uri.parse(url), fallback)
 }
 
 /**
- * Opens the URL on a Custom Tab if possible. Otherwise fallback to opening it on a WebView.
+ * Attempt to open the URL directly in a browser that supports Custom Tabs.
  *
  * @param context The source Context
  * @param url the [Uri] to be opened
  * @param fallback a [CustomTabsFallback] to be used if Custom Tabs is not available.
  */
 fun CustomTabsIntent.launch(
-        context: Context,
-        url: Uri,
-        fallback: ((Context, Uri, CustomTabsIntent) -> Unit)? = null
+    context: Context,
+    url: Uri,
+    fallback: CustomTabsFallback? = null
 ) {
     CustomTabsLauncher.launch(context, this, url, fallback)
 }

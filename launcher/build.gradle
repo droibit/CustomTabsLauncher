@@ -1,5 +1,8 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'com.github.dcendents.android-maven'
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -26,12 +29,9 @@ android {
 }
 
 dependencies {
-    api "androidx.browser:browser:$androidx.browserVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'androidx.test.ext:junit-ktx:1.1.2'
-    testImplementation 'org.mockito:mockito-core:2.28.2'
-    testImplementation 'org.robolectric:robolectric:4.4'
+    api "androidx.browser:browser:$androidx.browserVersion"
 }
 
 // build a jar with source files

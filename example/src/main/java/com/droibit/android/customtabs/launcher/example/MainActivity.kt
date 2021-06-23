@@ -9,7 +9,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs
-import com.droibit.android.customtabs.launcher.CustomTabsLauncher.launch
 import com.droibit.android.customtabs.launcher.launch
 
 @Suppress("UNUSED_PARAMETER")
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     fun launchFromLauncher(v: View) {
         try {
             val tabsIntent = customTabsBuilder().build()
-            launch(this, tabsIntent, URI_GOOGLE)
+            CustomTabsLauncher.launch(this, tabsIntent, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
