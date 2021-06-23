@@ -49,21 +49,6 @@ object CustomTabsLauncher {
     }
 
     /**
-     * Fallback for launch a browser installed on the device.
-     */
-    class LaunchBrowser : CustomTabsFallback {
-        override fun openUrl(
-            context: Context,
-            uri: Uri,
-            customTabsIntent: CustomTabsIntent
-        ) {
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-                .setFlags(customTabsIntent.intent.flags)
-            context.startActivity(intent)
-        }
-    }
-
-    /**
      * Fallback for launch a non-Chrome browser that supports Custom Tabs.
      *
      * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
