@@ -33,6 +33,7 @@ internal object CustomTabsPackage {
             .filter { it !in CHROME_PACKAGES }
             .filter {
                 val serviceIntent = Intent(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION)
+                    .setPackage(it)
                 pm.resolveService(serviceIntent, 0) != null
             }
             .toList()
