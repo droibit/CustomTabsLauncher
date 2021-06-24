@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     fun launchDefaultCustomTabs(v: View) {
         try {
-            val tabsIntent = customTabsBuilder().build()
-            tabsIntent.launchUrl(this, URI_GOOGLE)
+            val customTabsIntent = customTabsBuilder().build()
+            customTabsIntent.launchUrl(this, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     fun launchFromLauncher(v: View) {
         try {
-            val tabsIntent = customTabsBuilder().build()
-            CustomTabsLauncher.launch(this, tabsIntent, URI_GOOGLE)
+            val customTabsIntent = customTabsBuilder().build()
+            CustomTabsLauncher.launch(this, customTabsIntent, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
             showErrorToast()
         }
@@ -48,13 +48,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             this,
             customTabsIntent,
             URI_GOOGLE,
-            LaunchNonChromeCustomTabs(
-                listOf(
-                    "com.microsoft.emmx",
-                    "org.mozilla.firefox",
-                    "org.mozilla.firefox_beta"
-                )
-            )
+            LaunchNonChromeCustomTabs(this)
         )
     }
 
