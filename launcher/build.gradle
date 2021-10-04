@@ -14,10 +14,6 @@ android {
         versionName rootProject.ext.versionName
     }
 
-    dexOptions {
-        preDexLibraries = !rootProject.ext.ci
-    }
-
     buildFeatures {
         buildConfig = false
     }
