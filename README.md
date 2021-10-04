@@ -24,36 +24,25 @@ allprojects {
 Add the dependency
 
 ```groovy
-implementation 'com.github.droibit.customtabslauncher:launcher:LATEST_VERSION'
-// for kotlin
-implementation 'com.github.droibit.customtabslauncher:launcher-kotlin:LATEST_VERSION'
+implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
 ```
 
 ## Usage
 
-Java:
-```java
-CustomTabsIntent tabsIntent = createCustomTabsIntent();
-CustomTabsLauncher.launch(
-    activity,
-    tabsIntent,
-    Uri.parse("https://www.google.com"),
-    new CustomTabsFallback() {
-        @Override public void openUri(
-          @NonNull Context context,
-          @NonNull Uri url,
-          @NonNull CustomTabsintent customTabsintent) {
-            // Fallback is optional.
-            // Launch WebView, display a toast, etc.
-        }
-    }
-);
-```
-
-Kotlin:
-
 ```kotlin
-createCustomTabsIntent().launch(context, url = "https://www.google.com") { context, url, customTabsintent ->
+val tabsIntent = createCustomTabsIntent();
+CustomTabsLauncher.launch(
+    context,
+    customTabsIntent,
+    Uri.parse("https://www.google.com"),
+) { context, uri, customTabsIntent ->
+    // Fallback is optional.
+    // Launch WebView, display a toast, etc. 
+}
+
+// or
+
+createCustomTabsIntent().launch(context, url = "https://www.google.com") { context, url, customTabsIntent ->
     // Fallback is optional.
     // Launch WebView, display a toast, etc.
 }
@@ -71,20 +60,22 @@ createCustomTabsIntent().launch(context, url = "https://www.google.com") { conte
 This library officially supports Chrome,   
 but provides `LaunchNonChromeCustomTabsFallback` as a helper class for directly launching other browsers that support CustomTabs.
 
-```Java
-static import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs;
+```kotlin
+import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs;
 
-final exampleNonChromePackages = Arrays.asList(
+val exampleNonChromePackages = listOf(
   "org.mozilla.firefox",
   "com.microsoft.emmx"
-);
+)
 
 CustomTabsLauncher.launch(
-    activity,
-    tabsIntent,
+    context,
+    customTabsIntent,
     Uri.parse("https://www.google.com"),
-    new LaunchNonChromeCustomTabs(exampleNonChromePackages)
-);
+    LaunchNonChromeCustomTabs(exampleNonChromePackages)
+    // or Specify browser apps that supports Custom Tabs that is not Chrome installed on a device.
+    // LaunchNonChromeCustomTabs(context)
+)
 ```
 
 ## License
