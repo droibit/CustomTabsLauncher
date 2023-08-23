@@ -14,7 +14,8 @@ internal class CustomTabsLauncherImpl {
         expectCustomTabsPackages: List<String>,
         fallback: CustomTabsFallback?
     ) {
-        val customTabsPackage = CustomTabsClient.getPackageName(context, expectCustomTabsPackages)
+        val customTabsPackage =
+            CustomTabsClient.getPackageName(context, expectCustomTabsPackages, true)
         if (customTabsPackage == null && fallback != null) {
             fallback.openUrl(context, uri, customTabsIntent)
             return
