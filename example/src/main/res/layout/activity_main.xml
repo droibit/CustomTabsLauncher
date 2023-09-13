@@ -22,17 +22,17 @@
         android:onClick="launchFromLauncher" />
 
     <Button
-        android:id="@+id/launcherKotlinButton"
-        android:text="Launch from Launcher(Kotlin ext)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="launchFromKotlinLauncher" />
-
-    <Button
         android:id="@+id/fallbacksButton"
         android:text="FallBacks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="fallbacks" />
+
+    <Button
+        android:id="@+id/startActivityButton"
+        android:text="Start Activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startActivityWithCustomTabs" />
 
 </LinearLayout>
