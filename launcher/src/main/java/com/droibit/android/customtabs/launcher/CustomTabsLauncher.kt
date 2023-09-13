@@ -37,6 +37,7 @@ object CustomTabsLauncher {
      * @param uri              the Uri to be opened.
      * @param fallback         a [CustomTabsFallback] to be used if Custom Tabs is not available.
      */
+    @Deprecated("Migrate to 'CustomTabsIntent.ensureCustomTabsPackage' and 'CustomTabsIntent.launchUrl'.")
     @JvmStatic
     @JvmOverloads
     fun launch(
@@ -53,6 +54,7 @@ object CustomTabsLauncher {
      *
      * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
      */
+    @Deprecated("Migrate to 'NonChromeCustomTabs'.")
     class LaunchNonChromeCustomTabs(
         private val customTabsPackages: List<String>
     ) : CustomTabsFallback {
@@ -73,4 +75,17 @@ object CustomTabsLauncher {
             }
         }
     }
+}
+
+/**
+ * To be used as a fallback to open the Uri when Custom Tabs is not available.
+ */
+@Deprecated("Migrate to 'CustomTabsPackageFallback'.")
+fun interface CustomTabsFallback {
+    /**
+     * @param context          The source Context
+     * @param uri              The Uri to load in the Custom Tab
+     * @param customTabsIntent a source CustomTabsIntent
+     */
+    fun openUrl(context: Context, uri: Uri, customTabsIntent: CustomTabsIntent)
 }
