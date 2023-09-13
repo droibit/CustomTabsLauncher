@@ -6,6 +6,7 @@ import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsFallback
 
+@Deprecated("Deprecated.")
 internal class CustomTabsLauncherImpl {
     fun launch(
         context: Context,
