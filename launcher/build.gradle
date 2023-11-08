@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    api "androidx.browser:browser:$androidx.browserVersion"
+    implementation "androidx.browser:browser:1.5.0"
 }
 
 afterEvaluate {
