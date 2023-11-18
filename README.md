@@ -8,14 +8,6 @@ Custom Tabs does not launch directly in the following user environment.
 
 Custom Tabs can be displayed as one screen of the app to customize the look & feel. For this reason, I have created a library for launching direct.
 
-### Browser Priorities
-
-1. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
-2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
-3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
-4. Local(com.google.android.apps.chrome).
-5. (Optional) Browsers provided by `CustomTabsPackageFallback`.
-
 ## Download
 
 Add it in your root build.gradle at the end of repositories:
@@ -41,7 +33,7 @@ implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
 ```kotlin
 try {
     val customTabsIntent = buildCustomTabsIntent()
-        .ensureCustomTabsPackage(context)
+        .ensureChromeCustomTabsPackage(context)
     customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
 } catch (e: ActivityNotFoundException) {
     // Launch WebView, display a toast, etc.     
@@ -57,7 +49,7 @@ val activityLauncher = registerForActivityResult(StartActivityForResult()) {
 
 try {
   val customTabsIntent = build().apply {
-      ensureCustomTabsPackage(context)
+      ensureChromeCustomTabsPackage(context)
       intent.data = Uri.parse("https://example.com")
   }
   activityLauncher.launch(customTabsIntent.intent)
@@ -70,17 +62,14 @@ try {
 
 ```kotlin
 buildCustomTabsIntent()
-  .ensureCustomTabsPackage(
+  .ensureChromeCustomTabsPackage(
       context,
-      // Launch a specific browser that supports Custom Tabs.
-      NonChromeCustomTabs(
-        listOf(
-          "org.mozilla.firefox",
-          "com.microsoft.emmx"
-        )
-        // or launch a browser that supports Custom Tabs (not Chrome).
-        // NonChromeCustomTabs(context)
-      )
+      // Launch a browser that supports Custom Tabs (not Chrome).
+      NonChromeCustomTabs(context)
+      // or launch a specific browser that supports Custom Tabs.
+      // NonChromeCustomTabs(
+      //   listOf("org.mozilla.firefox", "com.microsoft.emmx")
+      // )
     )
 ```
 

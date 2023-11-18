@@ -37,7 +37,7 @@ object CustomTabsLauncher {
      * @param uri              the Uri to be opened.
      * @param fallback         a [CustomTabsFallback] to be used if Custom Tabs is not available.
      */
-    @Deprecated("Migrate to 'CustomTabsIntent.ensureCustomTabsPackage' and 'CustomTabsIntent.launchUrl'.")
+    @Deprecated("Migrate to 'CustomTabsIntent.ensureChromeCustomTabsPackage' and 'CustomTabsIntent.launchUrl'.")
     @JvmStatic
     @JvmOverloads
     fun launch(

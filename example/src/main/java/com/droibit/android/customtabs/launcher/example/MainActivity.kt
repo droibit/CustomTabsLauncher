@@ -11,7 +11,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.droibit.android.customtabs.launcher.NonChromeCustomTabs
-import com.droibit.android.customtabs.launcher.ensureCustomTabsPackage
+import com.droibit.android.customtabs.launcher.ensureChromeCustomTabsPackage
 
 @Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         try {
             val customTabsIntent = customTabsBuilder()
                 .build().also {
-                    it.ensureCustomTabsPackage(this)
+                    it.ensureChromeCustomTabsPackage(this)
                 }
             customTabsIntent.launchUrl(this, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         try {
             val customTabsIntent = customTabsBuilder()
                 .build().also {
-                    it.ensureCustomTabsPackage(this, NonChromeCustomTabs(this))
+                    it.ensureChromeCustomTabsPackage(this, fallback = NonChromeCustomTabs(this))
                 }
             customTabsIntent.launchUrl(this, URI_GOOGLE)
         } catch (e: ActivityNotFoundException) {
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             )
             .setInitialActivityHeightPx(400)
             .build().apply {
-                ensureCustomTabsPackage(this@MainActivity)
+                ensureChromeCustomTabsPackage(this@MainActivity)
                 intent.data = URI_GOOGLE
             }
         activityLauncher.launch(customTabsIntent.intent)

@@ -8,27 +8,31 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage.CHROME_PACKAGES
 
 /**
- * Sets the package name of the [CustomTabsIntent] to directly launch a browser that supports Custom Tabs.
+ * Sets the package name of Chrome to the [CustomTabsIntent] explicitly to launch it as a Custom Tab.
  *
- * Chrome is prioritized as the launch target, but if it is not installed,
- * other browsers can be provided as the target using the [CustomTabsPackageFallback].
- * (If no browser that supports Custom Tabs is installed on the device, the CustomTabsIntent is not affected.)
+ * Browser Priorities:
+ * 1. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
+ * 2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
+ * 3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
+ * 4. Local(com.google.android.apps.chrome).
+ * 5. (Optional) Browsers provided by [CustomTabsPackageFallback].
  *
- * * Basic usage:
+ * ## Usage
+ * - Basic usage:
  * ```
  * val customTabsIntent = build()
- * customTabsIntent.ensureCustomTabsPackage(context)
+ * customTabsIntent.ensureChromeCustomTabsPackage(context)
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
- * * Present the custom tab as bottom sheet
+ * - Present the custom tab as bottom sheet:
  * ```
  * val activityLauncher = registerForActivityResult(StartActivityForResult()) {
  *      // Do something.
  * }
  *
  * val customTabsIntent = build().apply {
- *      ensureCustomTabsPackage(context)
+ *      ensureChromeCustomTabsPackage(context)
  *      intent.data = Uri
  * }
  * activityLauncher.launch(customTabsIntent.intent)
@@ -38,21 +42,22 @@ import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage.CHROME
  * @param fallback A [CustomTabsPackageFallback] to be used if Chrome Custom Tabs is not available.
  */
 @JvmOverloads
-fun CustomTabsIntent.ensureCustomTabsPackage(
+fun CustomTabsIntent.ensureChromeCustomTabsPackage(
     context: Context,
     fallback: CustomTabsPackageFallback? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, CHROME_PACKAGES, fallback)
+    setCustomTabsPackage(context, CHROME_PACKAGES, true, fallback)
     return this
 }
 
 internal fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
     customTabsPackages: List<String>,
+    ignoreDefault: Boolean = true,
     fallback: CustomTabsPackageFallback? = null,
 ) {
     val customTabsPackage =
-        CustomTabsClient.getPackageName(context, customTabsPackages, true)
+        CustomTabsClient.getPackageName(context, customTabsPackages, ignoreDefault)
     if (customTabsPackage == null && fallback != null) {
         with(fallback) {
             setCustomTabsPackage(context)
