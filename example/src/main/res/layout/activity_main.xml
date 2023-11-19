@@ -9,17 +9,24 @@
 
     <Button
         android:id="@+id/defaultButton"
-        android:text="Launch Default"
+        android:text="Launch in default"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="launchDefaultCustomTabs" />
+        android:onClick="launchInDefaultCustomTabs" />
 
     <Button
-        android:id="@+id/launcherButton"
-        android:text="Launch from Launcher"
+        android:id="@+id/chromeCustomTabsButton"
+        android:text="Launch in Chrome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="launchFromLauncher" />
+        android:onClick="launchInChromeCustomTabs" />
+
+    <Button
+        android:id="@+id/customTabsButton"
+        android:text="Launch in Custom Tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="launchInCustomTabs" />
 
     <Button
         android:id="@+id/fallbacksButton"
@@ -30,9 +37,9 @@
 
     <Button
         android:id="@+id/startActivityButton"
-        android:text="Start Activity"
+        android:text="Launch in partial custom tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="startActivityWithCustomTabs" />
+        android:onClick="launchInPartialCustomTabs" />
 
 </LinearLayout>

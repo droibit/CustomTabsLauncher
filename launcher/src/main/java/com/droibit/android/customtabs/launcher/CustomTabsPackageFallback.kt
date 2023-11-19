@@ -5,8 +5,10 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage
 
 /**
- * If Chrome is not installed, it provides an opportunity to `CustomTabsIntent`
- * to specify a browser that support Custom Tabs as the launch target.
+ * The [CustomTabsPackageFallback] interface allows you
+ * to specify the package name of a browser that supports Custom Tabs to the [CustomTabsIntent].
+ * This means that you can launch a URL in the specified browser
+ * even if Chrome is not installed or the default browser does not support Custom Tabs.
  */
 fun interface CustomTabsPackageFallback {
     fun CustomTabsIntent.setCustomTabsPackage(context: Context)

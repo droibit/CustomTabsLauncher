@@ -43,5 +43,5 @@ android {
 dependencies {
     implementation project(':launcher')
     implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.browser:browser:1.7.0-rc01"
+    implementation "androidx.browser:browser:1.7.0"
 }
