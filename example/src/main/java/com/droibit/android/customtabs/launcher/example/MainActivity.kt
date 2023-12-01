@@ -95,8 +95,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     )
                     .build()
             )
-//            .setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left)
-//            .setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
 
     private fun showErrorToast() {
