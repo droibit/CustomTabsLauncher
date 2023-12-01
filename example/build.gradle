@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.droibit.android.customtabs.launcher.example"
         minSdk 23
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0.0"
     }
@@ -43,5 +43,5 @@ android {
 dependencies {
     implementation project(':launcher')
     implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.browser:browser:1.7.0"
+    implementation "androidx.browser:browser:1.8.0-beta01"
 }
