@@ -1,0 +1,14 @@
+[versions]
+android-gradle-plugin = "8.2.0"
+kotlin = "1.7.0"
+compileSdk = "34"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
+androidx-browser = { module = "androidx.browser:browser", version = "1.5.0" }
+androidx-browser-latest = { module = "androidx.browser:browser", version = "1.8.0-beta01" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
