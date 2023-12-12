@@ -1,12 +1,14 @@
 # CustomTabsLauncher
-[![Android CI](https://github.com/droibit/CustomTabsLauncher/workflows/Android%20CI/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions?query=workflow%3A%22Android+CI%22) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
+[![Android CI](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
-This library to launch the [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/) directly.
-Custom Tabs does not launch directly in the following user environment.
-* Multiple browser app is installed.
-* Default browser is non-Chrome.
+This library makes it easy to launch [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs) directly from your app.
 
-Custom Tabs can be displayed as one screen of the app to customize the look & feel. For this reason, I have created a library for launching direct.
+In some user environments, Custom Tabs may not launch directly. This can happen in the following cases:
+- Multiple browser apps are installed on the device.
+- The default browser is not Chrome.
+
+Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and feel.   
+For this reason, I created this library to make it easier to launch Chrome Custom Tabs directly.
 
 ## Download
 
@@ -24,11 +26,14 @@ Add the dependency
 
 ```groovy
 implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
+
+// Recommended: Declare androidx.browser explicitly as a dependency.
+// implementation 'androidx.browser:browser:LATEST_VERSION'
 ```
 
 ## Usage
 
-#### Basic usage
+### Launch in Chrome Custom Tabs
 
 ```kotlin
 try {
@@ -40,7 +45,19 @@ try {
 }
 ```
 
-##### Present the custom tab as bottom sheet
+### Launch in the default browser that supports Custom Tabs
+
+```kotlin
+try {
+    val customTabsIntent = buildCustomTabsIntent()
+        .ensureCustomTabsPackage(context)
+    customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
+} catch (e: ActivityNotFoundException) {
+    // Launch WebView, display a toast, etc.     
+}
+```
+
+### Present a custom tab as bottom sheet
 
 ```kotlin
 val activityLauncher = registerForActivityResult(StartActivityForResult()) {
@@ -49,7 +66,7 @@ val activityLauncher = registerForActivityResult(StartActivityForResult()) {
 
 try {
   val customTabsIntent = build().apply {
-      ensureChromeCustomTabsPackage(context)
+      ensureChromeCustomTabsPackage(context) // or ensureCustomTabsPackage(context)
       intent.data = Uri.parse("https://example.com")
   }
   activityLauncher.launch(customTabsIntent.intent)
@@ -58,11 +75,11 @@ try {
 }
 ```
 
-#### How to use `CustomTabsPackageFallback`
+### Fallback to a non-Chrome browser
 
 ```kotlin
 buildCustomTabsIntent()
-  .ensureChromeCustomTabsPackage(
+  .ensureChromeCustomTabsPackage( // or .ensureCustomTabsPackage(    
       context,
       // Launch a browser that supports Custom Tabs (not Chrome).
       NonChromeCustomTabs(context)
