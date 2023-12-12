@@ -5,7 +5,7 @@ package com.droibit.android.customtabs.launcher
 import android.content.Context
 import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
-import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage.CHROME_PACKAGES
+import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
  * Sets the package name of Chrome to the [CustomTabsIntent] explicitly to launch it as a Custom Tab.

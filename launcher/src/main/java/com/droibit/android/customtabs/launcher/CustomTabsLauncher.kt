@@ -5,8 +5,7 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsLauncher.LaunchNonChromeCustomTabs
 import com.droibit.android.customtabs.launcher.internal.CustomTabsLauncherImpl
-import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage
-import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage.CHROME_PACKAGES
+import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
  * A utility class that directly launches a browser that supports Custom Tabs.

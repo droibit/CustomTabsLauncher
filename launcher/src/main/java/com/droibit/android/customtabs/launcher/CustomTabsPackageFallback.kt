@@ -2,7 +2,6 @@ package com.droibit.android.customtabs.launcher
 
 import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
-import com.droibit.android.customtabs.launcher.internal.CustomTabsPackage
 
 /**
  * The [CustomTabsPackageFallback] interface allows you
@@ -29,7 +28,7 @@ class NonChromeCustomTabs(
 
     override fun CustomTabsIntent.setCustomTabsPackage(context: Context) {
         if (customTabsPackages.isNotEmpty()) {
-            setCustomTabsPackage(context, customTabsPackages, fallback = null)
+            setCustomTabsPackage(context, customTabsPackages, false, fallback = null)
         }
     }
 }
