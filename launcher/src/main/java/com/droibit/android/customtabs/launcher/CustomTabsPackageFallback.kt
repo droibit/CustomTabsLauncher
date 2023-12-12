@@ -16,10 +16,10 @@ fun interface CustomTabsPackageFallback {
 /**
  * Fallback for launch a non-Chrome browser that supports Custom Tabs.
  *
- * @param customTabsPackages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
+ * @param packages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
  */
 class NonChromeCustomTabs(
-    private val customTabsPackages: List<String>
+    private val packages: List<String>
 ) : CustomTabsPackageFallback {
 
     constructor(context: Context) : this(
@@ -27,8 +27,8 @@ class NonChromeCustomTabs(
     )
 
     override fun CustomTabsIntent.setCustomTabsPackage(context: Context) {
-        if (customTabsPackages.isNotEmpty()) {
-            setCustomTabsPackage(context, customTabsPackages, false, fallback = null)
+        if (packages.isNotEmpty()) {
+            setCustomTabsPackage(context, packages, ignoreDefault = false, fallback = null)
         }
     }
 }
