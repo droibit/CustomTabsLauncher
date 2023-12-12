@@ -25,7 +25,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
- * - Present the custom tab as bottom sheet:
+ * - Present a custom tab as bottom sheet:
  * ```
  * val activityLauncher = registerForActivityResult(StartActivityForResult()) {
  *      // Do something.
@@ -70,7 +70,7 @@ fun CustomTabsIntent.ensureChromeCustomTabsPackage(
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
- * - Present the custom tab as bottom sheet:
+ * - Present a custom tab as bottom sheet:
  * ```
  * val activityLauncher = registerForActivityResult(StartActivityForResult()) {
  *      // Do something.
