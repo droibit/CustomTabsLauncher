@@ -21,7 +21,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * - Basic usage:
  * ```
  * val customTabsIntent = build()
- * customTabsIntent.ensureChromeCustomTabsPackage(context)
+ * customTabsIntent.setChromeCustomTabsPackage(context)
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
@@ -32,7 +32,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * }
  *
  * val customTabsIntent = build().apply {
- *      ensureChromeCustomTabsPackage(context)
+ *      setChromeCustomTabsPackage(context)
  *      intent.data = Uri
  * }
  * activityLauncher.launch(customTabsIntent.intent)
@@ -42,7 +42,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * @param fallback A [CustomTabsPackageFallback] to be used if Chrome is not available.
  */
 @JvmOverloads
-fun CustomTabsIntent.ensureChromeCustomTabsPackage(
+fun CustomTabsIntent.setChromeCustomTabsPackage(
     context: Context,
     fallback: CustomTabsPackageFallback? = null,
 ): CustomTabsIntent {
@@ -66,7 +66,7 @@ fun CustomTabsIntent.ensureChromeCustomTabsPackage(
  * - Basic usage:
  * ```
  * val customTabsIntent = build()
- * customTabsIntent.ensureCustomTabsPackage(context)
+ * customTabsIntent.setCustomTabsPackage(context)
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
@@ -77,7 +77,7 @@ fun CustomTabsIntent.ensureChromeCustomTabsPackage(
  * }
  *
  * val customTabsIntent = build().apply {
- *      ensureCustomTabsPackage(context)
+ *      setCustomTabsPackage(context)
  *      intent.data = Uri
  * }
  * activityLauncher.launch(customTabsIntent.intent)
@@ -87,11 +87,11 @@ fun CustomTabsIntent.ensureChromeCustomTabsPackage(
  * @param fallback A [CustomTabsPackageFallback] to be used if the default browser or Chrome are not available.
  */
 @JvmOverloads
-fun CustomTabsIntent.ensureCustomTabsPackage(
+fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
     fallback: CustomTabsPackageFallback? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, CHROME_PACKAGES, false, fallback)
+    this.setCustomTabsPackage(context, CHROME_PACKAGES, false, fallback)
     return this
 }
 

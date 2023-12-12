@@ -28,7 +28,7 @@ class CustomTabsIntentHelperTest {
     private lateinit var context: Context
 
     @Test
-    fun `ensureChromeCustomTabsPackage uses Chrome if found`() {
+    fun `setChromeCustomTabsPackage uses Chrome if found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             val chromePackage = "com.android.chrome"
             mocked.`when`<String?> {
@@ -37,7 +37,7 @@ class CustomTabsIntentHelperTest {
 
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureChromeCustomTabsPackage(context)
+                .setChromeCustomTabsPackage(context)
             assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
 
             mocked.verify {
@@ -47,7 +47,7 @@ class CustomTabsIntentHelperTest {
     }
 
     @Test
-    fun `ensureChromeCustomTabsPackage sets null if Chrome not found`() {
+    fun `setChromeCustomTabsPackage sets null if Chrome not found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             mocked.`when`<String?> {
                 CustomTabsClient.getPackageName(any(), any(), any())
@@ -55,7 +55,7 @@ class CustomTabsIntentHelperTest {
 
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureChromeCustomTabsPackage(context)
+                .setChromeCustomTabsPackage(context)
             assertThat(customTabsIntent.intent.`package`).isNull()
 
             mocked.verify {
@@ -65,7 +65,7 @@ class CustomTabsIntentHelperTest {
     }
 
     @Test
-    fun `ensureChromeCustomTabsPackage falls back to non-Chrome Custom Tab if Chrome not found`() {
+    fun `setChromeCustomTabsPackage falls back to non-Chrome Custom Tab if Chrome not found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             val noneChromePackage = "com.example.customtabs"
             mocked.`when`<String?> {
@@ -75,7 +75,7 @@ class CustomTabsIntentHelperTest {
             val fallback = NonChromeCustomTabs(listOf(noneChromePackage))
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureChromeCustomTabsPackage(context, fallback)
+                .setChromeCustomTabsPackage(context, fallback)
             assertThat(customTabsIntent.intent.`package`).isEqualTo(noneChromePackage)
 
             inOrder(CustomTabsClient::class.java) {
@@ -90,7 +90,7 @@ class CustomTabsIntentHelperTest {
     }
 
     @Test
-    fun `ensureCustomTabsPackage uses default browser if found`() {
+    fun `setCustomTabsPackage uses default browser if found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             val chromePackage = "com.chrome.beta"
             mocked.`when`<String?> {
@@ -99,7 +99,7 @@ class CustomTabsIntentHelperTest {
 
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureCustomTabsPackage(context)
+                .setCustomTabsPackage(context)
             assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
 
             mocked.verify {
@@ -109,7 +109,7 @@ class CustomTabsIntentHelperTest {
     }
 
     @Test
-    fun `ensureCustomTabsPackage sets null if no default browser or Chrome found`() {
+    fun `setCustomTabsPackage sets null if no default browser or Chrome found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             mocked.`when`<String?> {
                 CustomTabsClient.getPackageName(any(), any(), any())
@@ -117,7 +117,7 @@ class CustomTabsIntentHelperTest {
 
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureCustomTabsPackage(context)
+                .setCustomTabsPackage(context)
             assertThat(customTabsIntent.intent.`package`).isNull()
 
             mocked.verify {
@@ -127,7 +127,7 @@ class CustomTabsIntentHelperTest {
     }
 
     @Test
-    fun `ensureCustomTabsPackage falls back to non-Chrome Custom Tab if none found`() {
+    fun `setCustomTabsPackage falls back to non-Chrome Custom Tab if none found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             val noneChromePackage = "com.example.customtabs"
             mocked.`when`<String?> {
@@ -137,7 +137,7 @@ class CustomTabsIntentHelperTest {
             val fallback = NonChromeCustomTabs(listOf(noneChromePackage))
             val customTabsIntent = CustomTabsIntent.Builder()
                 .build()
-                .ensureCustomTabsPackage(context, fallback)
+                .setCustomTabsPackage(context, fallback)
             assertThat(customTabsIntent.intent.`package`).isEqualTo(noneChromePackage)
 
             mocked.verify({
