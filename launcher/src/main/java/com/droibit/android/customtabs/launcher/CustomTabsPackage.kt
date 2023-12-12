@@ -1,4 +1,4 @@
-package com.droibit.android.customtabs.launcher.internal
+package com.droibit.android.customtabs.launcher
 
 import android.content.Context
 import android.content.Intent

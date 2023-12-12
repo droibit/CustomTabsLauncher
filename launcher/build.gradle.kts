@@ -23,6 +23,12 @@ android {
 
 dependencies {
     implementation(libs.androidx.browser)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.truth)
+    testImplementation(libs.androidx.test.junit)
+    testImplementation(libs.robolectric)
 }
 
 apply(from = "$rootDir/gradle/gradle-mvn-push.gradle.kts")

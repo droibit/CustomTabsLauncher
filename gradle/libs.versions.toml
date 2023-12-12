@@ -7,6 +7,11 @@ compileSdk = "34"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 androidx-browser = { module = "androidx.browser:browser", version = "1.5.0" }
 androidx-browser-latest = { module = "androidx.browser:browser", version = "1.8.0-beta01" }
+androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.1.5" }
+junit = { module = "junit:junit", version = "4.13.2" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.10.3" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.1.0" }
+truth = { module = "com.google.truth:truth", version = "1.1.5" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
