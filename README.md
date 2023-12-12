@@ -33,24 +33,26 @@ implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
 
 ## Usage
 
-### Launch in Chrome Custom Tabs
+### Basic Usage
+
+#### Launch in Chrome Custom Tabs
 
 ```kotlin
 try {
     val customTabsIntent = buildCustomTabsIntent()
-        .ensureChromeCustomTabsPackage(context)
+        .setChromeCustomTabsPackage(context)
     customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
 } catch (e: ActivityNotFoundException) {
     // Launch WebView, display a toast, etc.     
 }
 ```
 
-### Launch in the default browser that supports Custom Tabs
+#### Launch in the default browser that supports Custom Tabs
 
 ```kotlin
 try {
     val customTabsIntent = buildCustomTabsIntent()
-        .ensureCustomTabsPackage(context)
+        .setCustomTabsPackage(context)
     customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
 } catch (e: ActivityNotFoundException) {
     // Launch WebView, display a toast, etc.     
@@ -66,7 +68,7 @@ val activityLauncher = registerForActivityResult(StartActivityForResult()) {
 
 try {
   val customTabsIntent = build().apply {
-      ensureChromeCustomTabsPackage(context) // or ensureCustomTabsPackage(context)
+      setChromeCustomTabsPackage(context) // or setCustomTabsPackage(context)
       intent.data = Uri.parse("https://example.com")
   }
   activityLauncher.launch(customTabsIntent.intent)
@@ -79,9 +81,9 @@ try {
 
 ```kotlin
 buildCustomTabsIntent()
-  .ensureChromeCustomTabsPackage( // or .ensureCustomTabsPackage(    
+  .setChromeCustomTabsPackage( // or .setCustomTabsPackage(
       context,
-      // Launch a browser that supports Custom Tabs (not Chrome).
+      // Launch a browser that supports Custom Tabs (non-Chrome).
       NonChromeCustomTabs(context)
       // or launch a specific browser that supports Custom Tabs.
       // NonChromeCustomTabs(
