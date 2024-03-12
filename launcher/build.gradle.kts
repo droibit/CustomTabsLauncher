@@ -9,6 +9,11 @@ android {
 
     defaultConfig {
         minSdk = 16
+
+        aarMetadata {
+            // Match `androidx.browser` minCompileSdk to ensure compatibility.
+            minCompileSdk = libs.versions.compileSdk.get().toInt()
+        }
     }
 
     compileOptions {
