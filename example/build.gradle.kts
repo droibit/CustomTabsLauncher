@@ -39,5 +39,5 @@ android {
 dependencies {
     implementation(projects.launcher)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.browser.latest)
+    implementation(libs.androidx.browser)
 }
