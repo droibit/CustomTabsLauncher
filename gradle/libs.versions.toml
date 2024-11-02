@@ -10,7 +10,7 @@ androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.1.5
 junit = { module = "junit:junit", version = "4.13.2" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.11" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "4.1.0" }
-truth = { module = "com.google.truth:truth", version = "1.4.2" }
+truth = { module = "com.google.truth:truth", version = "1.4.4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
