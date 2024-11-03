@@ -15,7 +15,7 @@ internal object CustomTabsPackage {
     private const val PACKAGE_CHROME_DEV = "com.chrome.dev"
     private const val PACKAGE_CHROME_LOCAL = "com.google.android.apps.chrome"
 
-    val CHROME_PACKAGES = listOf(
+    val CHROME_PACKAGES = setOf(
         PACKAGE_CHROME_STABLE,
         PACKAGE_CHROME_BETA,
         PACKAGE_CHROME_DEV,

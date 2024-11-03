@@ -8,14 +8,15 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
- * Sets the package name of Chrome to the [CustomTabsIntent] explicitly to launch it as a Custom Tab.
+ * Sets the package name of Chrome or an alternative browser that supports Custom Tabs
+ * to the [CustomTabsIntent] explicitly for launching URLs as Custom Tabs.
  *
- * The browser priorities are as follows:
+ * ## Browser Priorities
  * 1. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
  * 2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
  * 3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
  * 4. Local(com.google.android.apps.chrome).
- * 5. (Optional) Browsers provided by [CustomTabsPackageFallback].
+ * 5. (Optional) Browsers provided by [CustomTabsPackageProvider].
  *
  * ## Usage
  * - Basic usage:
@@ -39,14 +40,16 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * ```
  *
  * @param context The source Context
- * @param fallback A [CustomTabsPackageFallback] to be used if Chrome is not available.
+ * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ *
+ * @return The modified [CustomTabsIntent] with the specified package set.
  */
 @JvmOverloads
 fun CustomTabsIntent.setChromeCustomTabsPackage(
     context: Context,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, CHROME_PACKAGES, true, fallback)
+    setCustomTabsPackage(context, true, additionalCustomTabs)
     return this
 }
 
@@ -54,13 +57,13 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * Explicitly sets the package name of the browser that supports Custom Tabs
  * to the [CustomTabsIntent] to launch it as a Custom Tab.
  *
- * The browser priorities are as follows:
+ * ## Browser Priorities
  * 1. The default browser that supports Custom Tabs.
  * 2. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
  * 3. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
  * 4. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
  * 5. Local(com.google.android.apps.chrome).
- * 6. (Optional) Browsers provided by [CustomTabsPackageFallback].
+ * 6. (Optional) Browsers provided by [CustomTabsPackageProvider].
  *
  * ## Usage
  * - Basic usage:
@@ -84,30 +87,49 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * ```
  *
  * @param context The source Context
- * @param fallback A [CustomTabsPackageFallback] to be used if the default browser or Chrome are not available.
+ * @param additionalCustomTabs A [CustomTabsPackageProvider] to be used if the default browser or Chrome are not available.
+ *
+ * @return The modified [CustomTabsIntent] with the specified package set.
  */
 @JvmOverloads
 fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    this.setCustomTabsPackage(context, CHROME_PACKAGES, false, fallback)
+    setCustomTabsPackage(context, false, additionalCustomTabs)
     return this
 }
 
 internal fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
-    customTabsPackages: List<String>,
     ignoreDefault: Boolean = true,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ) {
-    val customTabsPackage =
-        CustomTabsClient.getPackageName(context, customTabsPackages, ignoreDefault)
-    if (customTabsPackage == null && fallback != null) {
-        with(fallback) {
-            setCustomTabsPackage(context)
-        }
-        return
-    }
+    val customTabsPackage = getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)
     intent.setPackage(customTabsPackage)
+}
+
+/**
+ * Retrieves the appropriate browser package name that supports Custom Tabs.
+ *
+ * This function builds a list of eligible browser packages by combining the default
+ * Chrome packages with any additional packages provided by the [CustomTabsPackageProvider].
+ * It then uses the [CustomTabsClient] to determine the best package to handle Custom Tabs.
+ *
+ * @param context The source Context
+ * @param ignoreDefault If set to `true`, the default browser is prioritized when selecting the Custom Tabs package.
+ * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ *
+ * @return The package name of the selected browser that supports Custom Tabs, or `null` if none found.
+ */
+fun getCustomTabsPackage(
+    context: Context,
+    ignoreDefault: Boolean = true,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
+): String? {
+    val packages = buildList {
+        addAll(CHROME_PACKAGES)
+        additionalCustomTabs?.invoke()?.let { addAll(it) }
+    }
+    return CustomTabsClient.getPackageName(context, packages, ignoreDefault)
 }
