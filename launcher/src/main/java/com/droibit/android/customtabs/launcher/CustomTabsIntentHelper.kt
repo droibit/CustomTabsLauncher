@@ -111,3 +111,28 @@ internal fun CustomTabsIntent.setCustomTabsPackage(
     }
     intent.setPackage(customTabsPackage)
 }
+
+/**
+ * Retrieves the appropriate browser package name that supports Custom Tabs.
+ *
+ * This function builds a list of eligible browser packages by combining the default
+ * Chrome packages with any additional packages provided by the [CustomTabsPackageProvider].
+ * It then uses the [CustomTabsClient] to determine the best package to handle Custom Tabs.
+ *
+ * @param context The source Context
+ * @param ignoreDefault If set to `true`, the default browser is prioritized when selecting the Custom Tabs package.
+ * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ *
+ * @return The package name of the selected browser that supports Custom Tabs, or `null` if none found.
+ */
+fun getCustomTabsPackage(
+    context: Context,
+    ignoreDefault: Boolean = true,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
+): String? {
+    val packages = buildList {
+        addAll(CHROME_PACKAGES)
+        additionalCustomTabs?.invoke()?.let { addAll(it) }
+    }
+    return CustomTabsClient.getPackageName(context, packages, ignoreDefault)
+}
