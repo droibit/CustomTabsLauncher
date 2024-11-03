@@ -8,14 +8,15 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
- * Sets the package name of Chrome to the [CustomTabsIntent] explicitly to launch it as a Custom Tab.
+ * Sets the package name of Chrome or an alternative browser that supports Custom Tabs
+ * to the [CustomTabsIntent] explicitly for launching URLs as Custom Tabs.
  *
- * The browser priorities are as follows:
+ * ## Browser Priorities
  * 1. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
  * 2. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
  * 3. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
  * 4. Local(com.google.android.apps.chrome).
- * 5. (Optional) Browsers provided by [CustomTabsPackageFallback].
+ * 5. (Optional) Browsers provided by [CustomTabsPackageProvider].
  *
  * ## Usage
  * - Basic usage:
@@ -40,6 +41,8 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  *
  * @param context The source Context
  * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ *
+ * @return The modified [CustomTabsIntent] with the specified package set.
  */
 @JvmOverloads
 fun CustomTabsIntent.setChromeCustomTabsPackage(
@@ -54,7 +57,7 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * Explicitly sets the package name of the browser that supports Custom Tabs
  * to the [CustomTabsIntent] to launch it as a Custom Tab.
  *
- * The browser priorities are as follows:
+ * ## Browser Priorities
  * 1. The default browser that supports Custom Tabs.
  * 2. [Chrome](https://play.google.com/store/apps/details?id=com.android.chrome).
  * 3. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
@@ -85,6 +88,8 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  *
  * @param context The source Context
  * @param additionalCustomTabs A [CustomTabsPackageProvider] to be used if the default browser or Chrome are not available.
+ *
+ * @return The modified [CustomTabsIntent] with the specified package set.
  */
 @JvmOverloads
 fun CustomTabsIntent.setCustomTabsPackage(
