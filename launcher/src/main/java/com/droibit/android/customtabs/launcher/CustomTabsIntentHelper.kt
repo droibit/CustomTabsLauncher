@@ -39,14 +39,14 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * ```
  *
  * @param context The source Context
- * @param fallback A [CustomTabsPackageFallback] to be used if Chrome is not available.
+ * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
  */
 @JvmOverloads
 fun CustomTabsIntent.setChromeCustomTabsPackage(
     context: Context,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, CHROME_PACKAGES, true, fallback)
+    setCustomTabsPackage(context, true, additionalCustomTabs)
     return this
 }
 
@@ -60,7 +60,7 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * 3. [Chrome Beta](https://play.google.com/store/apps/details?id=com.chrome.beta).
  * 4. [Chrome Dev](https://play.google.com/store/apps/details?id=com.chrome.dev).
  * 5. Local(com.google.android.apps.chrome).
- * 6. (Optional) Browsers provided by [CustomTabsPackageFallback].
+ * 6. (Optional) Browsers provided by [CustomTabsPackageProvider].
  *
  * ## Usage
  * - Basic usage:
@@ -84,31 +84,23 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * ```
  *
  * @param context The source Context
- * @param fallback A [CustomTabsPackageFallback] to be used if the default browser or Chrome are not available.
+ * @param additionalCustomTabs A [CustomTabsPackageProvider] to be used if the default browser or Chrome are not available.
  */
 @JvmOverloads
 fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    this.setCustomTabsPackage(context, CHROME_PACKAGES, false, fallback)
+    setCustomTabsPackage(context, false, additionalCustomTabs)
     return this
 }
 
 internal fun CustomTabsIntent.setCustomTabsPackage(
     context: Context,
-    customTabsPackages: List<String>,
     ignoreDefault: Boolean = true,
-    fallback: CustomTabsPackageFallback? = null,
+    additionalCustomTabs: CustomTabsPackageProvider? = null,
 ) {
-    val customTabsPackage =
-        CustomTabsClient.getPackageName(context, customTabsPackages, ignoreDefault)
-    if (customTabsPackage == null && fallback != null) {
-        with(fallback) {
-            setCustomTabsPackage(context)
-        }
-        return
-    }
+    val customTabsPackage = getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)
     intent.setPackage(customTabsPackage)
 }
 
