@@ -122,6 +122,7 @@ internal fun CustomTabsIntent.setCustomTabsPackage(
  *
  * @return The package name of the selected browser that supports Custom Tabs, or `null` if none found.
  */
+@JvmOverloads
 fun getCustomTabsPackage(
     context: Context,
     ignoreDefault: Boolean = true,
