@@ -28,6 +28,17 @@ class CustomTabsIntentHelperTest {
     private lateinit var context: Context
 
     @Test
+    fun `CHROME_PACKAGES are listed in priority order`() {
+        val expectedOrder = listOf(
+            "com.android.chrome",
+            "com.chrome.beta",
+            "com.chrome.dev",
+            "com.google.android.apps.chrome"
+        )
+        assertThat(CHROME_PACKAGES.toList()).isEqualTo(expectedOrder)
+    }
+
+    @Test
     fun `setChromeCustomTabsPackage uses Chrome if found`() {
         mockStatic(CustomTabsClient::class.java).use { mocked ->
             val chromePackage = "com.android.chrome"
