@@ -34,7 +34,7 @@ class NonChromeCustomTabs(
 ) : CustomTabsPackageProvider {
 
     constructor(context: Context) : this(
-        CustomTabsPackage.getNonChromeCustomTabsPackages(context).toSet()
+        CustomTabsPackage.getNonChromeCustomTabsPackages(context)
     )
 
     init {

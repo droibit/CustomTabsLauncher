@@ -15,6 +15,7 @@ internal object CustomTabsPackage {
     private const val PACKAGE_CHROME_DEV = "com.chrome.dev"
     private const val PACKAGE_CHROME_LOCAL = "com.google.android.apps.chrome"
 
+    // Higher priority packages are listed first.
     val CHROME_PACKAGES = setOf(
         PACKAGE_CHROME_STABLE,
         PACKAGE_CHROME_BETA,
@@ -22,7 +23,7 @@ internal object CustomTabsPackage {
         PACKAGE_CHROME_LOCAL
     )
 
-    fun getNonChromeCustomTabsPackages(context: Context): List<String> {
+    fun getNonChromeCustomTabsPackages(context: Context): Set<String> {
         val activityIntent = Intent(ACTION_VIEW, Uri.parse("http://"))
             .addCategory(Intent.CATEGORY_BROWSABLE)
         val pm = context.packageManager
@@ -35,7 +36,7 @@ internal object CustomTabsPackage {
                     .setPackage(it)
                 pm.resolveService(serviceIntent, 0) != null
             }
-            .toList()
+            .toSet()
     }
 
     private fun queryIntentActivities(pm: PackageManager, intent: Intent): List<ResolveInfo> {
