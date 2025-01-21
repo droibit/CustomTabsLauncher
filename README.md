@@ -1,31 +1,25 @@
 # CustomTabsLauncher
-[![Android CI](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml) [![JitPack.io](https://jitpack.io/v/droibit/customtabslauncher.svg)](https://jitpack.io/#droibit/customtabslauncher) [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
+
+[![Android CI](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml)
+[![Download](https://img.shields.io/maven-central/v/io.github.droibit/customtabslauncher/3.0.0)](https://central.sonatype.com/artifact/io.github.droibit/customtabslauncher/3.0.0)
+[![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
 This library makes it easy to launch [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs) directly from your app.
 
 In some user environments, Custom Tabs may not launch directly. This can happen in the following cases:
+
 - Multiple browser apps are installed on the device.
 - The default browser is not Chrome.
 
-Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and feel.   
+Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and feel.  
 For this reason, I created this library to make it easier to launch Chrome Custom Tabs directly.
 
 ## Download
 
-Add it in your root build.gradle at the end of repositories:
+Add the following dependency to your `build.gradle` file:
 
-```groovy
-allprojects {
-  repositories {
-    maven { url "https://jitpack.io" }
-  }
-}
-```
-
-Add the dependency
-
-```groovy
-implementation 'com.github.droibit:customtabslauncher:LATEST_VERSION'
+```kotlin
+implementation("io.github.droibit:customtabslauncher:LATEST_VERSION")
 
 // Recommended: Declare androidx.browser explicitly as a dependency.
 // implementation 'androidx.browser:browser:LATEST_VERSION'
