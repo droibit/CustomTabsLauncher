@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin)
     alias(libs.plugins.maven.publish)
 }
 
@@ -31,5 +31,3 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
 }
-
-apply(from = "$rootDir/gradle/gradle-mvn-push.gradle.kts")
