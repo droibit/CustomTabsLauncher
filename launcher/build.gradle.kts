@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin)
@@ -30,4 +32,14 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
+}
+
+mavenPublishing {
+    configure(
+        AndroidSingleVariantLibrary(
+            variant = "release",
+            sourcesJar = true,
+            publishJavadocJar = false
+        )
+    )
 }
