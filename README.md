@@ -1,7 +1,7 @@
 # CustomTabsLauncher
 
 [![Android CI](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml/badge.svg)](https://github.com/droibit/CustomTabsLauncher/actions/workflows/android.yml)
-[![Download](https://img.shields.io/maven-central/v/io.github.droibit/customtabslauncher/3.0.0)](https://central.sonatype.com/artifact/io.github.droibit/customtabslauncher/3.0.0)
+[![Download](https://img.shields.io/maven-central/v/io.github.droibit/customtabslauncher/3.1.0)](https://central.sonatype.com/artifact/io.github.droibit/customtabslauncher/3.1.0)
 [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
 This library makes it easy to
