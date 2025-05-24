@@ -9,7 +9,7 @@ androidx-browser = { module = "androidx.browser:browser", version = "1.8.0" }
 androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" }
 junit = { module = "junit:junit", version = "4.13.2" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.14.1" }
-mockk = { module = "io.mockk:mockk", version = "1.13.3" }
+mockk = { module = "io.mockk:mockk", version = "1.14.2" }
 truth = { module = "com.google.truth:truth", version = "1.4.4" }
 
 [plugins]
