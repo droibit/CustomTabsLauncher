@@ -46,11 +46,11 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  */
 @JvmOverloads
 fun CustomTabsIntent.setChromeCustomTabsPackage(
-    context: Context,
-    additionalCustomTabs: CustomTabsPackageProvider? = null,
+  context: Context,
+  additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, true, additionalCustomTabs)
-    return this
+  setCustomTabsPackage(context, true, additionalCustomTabs)
+  return this
 }
 
 /**
@@ -93,20 +93,20 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  */
 @JvmOverloads
 fun CustomTabsIntent.setCustomTabsPackage(
-    context: Context,
-    additionalCustomTabs: CustomTabsPackageProvider? = null,
+  context: Context,
+  additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): CustomTabsIntent {
-    setCustomTabsPackage(context, false, additionalCustomTabs)
-    return this
+  setCustomTabsPackage(context, false, additionalCustomTabs)
+  return this
 }
 
 internal fun CustomTabsIntent.setCustomTabsPackage(
-    context: Context,
-    ignoreDefault: Boolean = true,
-    additionalCustomTabs: CustomTabsPackageProvider? = null,
+  context: Context,
+  ignoreDefault: Boolean = true,
+  additionalCustomTabs: CustomTabsPackageProvider? = null,
 ) {
-    val customTabsPackage = getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)
-    intent.setPackage(customTabsPackage)
+  val customTabsPackage = getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)
+  intent.setPackage(customTabsPackage)
 }
 
 /**
@@ -124,13 +124,13 @@ internal fun CustomTabsIntent.setCustomTabsPackage(
  */
 @JvmOverloads
 fun getCustomTabsPackage(
-    context: Context,
-    ignoreDefault: Boolean = true,
-    additionalCustomTabs: CustomTabsPackageProvider? = null,
+  context: Context,
+  ignoreDefault: Boolean = true,
+  additionalCustomTabs: CustomTabsPackageProvider? = null,
 ): String? {
-    val packages = buildList {
-        addAll(CHROME_PACKAGES)
-        additionalCustomTabs?.invoke()?.let { addAll(it) }
-    }
-    return CustomTabsClient.getPackageName(context, packages, ignoreDefault)
+  val packages = buildList {
+    addAll(CHROME_PACKAGES)
+    additionalCustomTabs?.invoke()?.let { addAll(it) }
+  }
+  return CustomTabsClient.getPackageName(context, packages, ignoreDefault)
 }

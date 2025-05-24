@@ -13,12 +13,12 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * or when Chrome is not installed on the device.
  */
 fun interface CustomTabsPackageProvider {
-    /**
-     * Retrieves the set of browser package names that support Custom Tabs.
-     *
-     * @return A [Set] of package names as [String].
-     */
-    operator fun invoke(): Set<String>
+  /**
+   * Retrieves the set of browser package names that support Custom Tabs.
+   *
+   * @return A [Set] of package names as [String].
+   */
+  operator fun invoke(): Set<String>
 }
 
 /**
@@ -30,18 +30,18 @@ fun interface CustomTabsPackageProvider {
  * @param packages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
  */
 class NonChromeCustomTabs(
-    private val packages: Set<String>
+  private val packages: Set<String>,
 ) : CustomTabsPackageProvider {
 
-    constructor(context: Context) : this(
-        CustomTabsPackage.getNonChromeCustomTabsPackages(context)
-    )
+  constructor(context: Context) : this(
+    CustomTabsPackage.getNonChromeCustomTabsPackages(context),
+  )
 
-    init {
-        require(packages.none { CHROME_PACKAGES.contains(it) }) {
-            "Packages must not contain any Chrome packages."
-        }
+  init {
+    require(packages.none { CHROME_PACKAGES.contains(it) }) {
+      "Packages must not contain any Chrome packages."
     }
+  }
 
-    override operator fun invoke(): Set<String> = packages
+  override operator fun invoke(): Set<String> = packages
 }

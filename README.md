@@ -4,14 +4,17 @@
 [![Download](https://img.shields.io/maven-central/v/io.github.droibit/customtabslauncher/3.0.0)](https://central.sonatype.com/artifact/io.github.droibit/customtabslauncher/3.0.0)
 [![Software License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/droibit/prefbinding/blob/develop/LICENSE)
 
-This library makes it easy to launch [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs) directly from your app.
+This library makes it easy to
+launch [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs) directly from your app.
 
-In some user environments, Custom Tabs may not launch directly. This can happen in the following cases:
+In some user environments, Custom Tabs may not launch directly. This can happen in the following
+cases:
 
 - Multiple browser apps are installed on the device.
 - The default browser is not Chrome.
 
-Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and feel.  
+Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and
+feel.  
 For this reason, I created this library to make it easier to launch Chrome Custom Tabs directly.
 
 ## Download
@@ -33,11 +36,11 @@ implementation("io.github.droibit:customtabslauncher:LATEST_VERSION")
 
 ```kotlin
 try {
-    val customTabsIntent = buildCustomTabsIntent()
-        .setChromeCustomTabsPackage(context)
-    customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
+  val customTabsIntent = buildCustomTabsIntent()
+    .setChromeCustomTabsPackage(context)
+  customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
 } catch (e: ActivityNotFoundException) {
-    // Launch WebView, display a toast, etc.     
+  // Launch WebView, display a toast, etc.     
 }
 ```
 
@@ -45,11 +48,11 @@ try {
 
 ```kotlin
 try {
-    val customTabsIntent = buildCustomTabsIntent()
-        .setCustomTabsPackage(context)
-    customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
+  val customTabsIntent = buildCustomTabsIntent()
+    .setCustomTabsPackage(context)
+  customTabsIntent.launchUrl(context, Uri.parse("https://example.com"))
 } catch (e: ActivityNotFoundException) {
-    // Launch WebView, display a toast, etc.     
+  // Launch WebView, display a toast, etc.     
 }
 ```
 
@@ -57,17 +60,17 @@ try {
 
 ```kotlin
 val activityLauncher = registerForActivityResult(StartActivityForResult()) {
-     // Do something.
+  // Do something.
 }
 
 try {
   val customTabsIntent = build().apply {
-      setChromeCustomTabsPackage(context) // or setCustomTabsPackage(context)
-      intent.data = Uri.parse("https://example.com")
+    setChromeCustomTabsPackage(context) // or setCustomTabsPackage(context)
+    intent.data = Uri.parse("https://example.com")
   }
   activityLauncher.launch(customTabsIntent.intent)
 } catch (e: ActivityNotFoundException) {
-    // Launch WebView, display a toast, etc.     
+  // Launch WebView, display a toast, etc.     
 }
 ```
 
@@ -76,14 +79,14 @@ try {
 ```kotlin
 buildCustomTabsIntent()
   .setChromeCustomTabsPackage( // or .setCustomTabsPackage(
-      context,
-      // Launch a browser that supports Custom Tabs (non-Chrome).
-      NonChromeCustomTabs(context)
-      // or launch a specific browser that supports Custom Tabs.
-      // NonChromeCustomTabs(
-      //   listOf("org.mozilla.firefox", "com.microsoft.emmx")
-      // )
-    )
+    context,
+    // Launch a browser that supports Custom Tabs (non-Chrome).
+    NonChromeCustomTabs(context)
+    // or launch a specific browser that supports Custom Tabs.
+    // NonChromeCustomTabs(
+    //   listOf("org.mozilla.firefox", "com.microsoft.emmx")
+    // )
+  )
 ```
 
 ## License
