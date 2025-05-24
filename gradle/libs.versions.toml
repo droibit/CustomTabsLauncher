@@ -6,7 +6,7 @@ compileSdk = "34"
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 androidx-browser = { module = "androidx.browser:browser", version = "1.8.0" }
-androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.1.5" }
+androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" }
 junit = { module = "junit:junit", version = "4.13.2" }
 robolectric = { module = "org.robolectric:robolectric", version = "4.11" }
 mockk = { module = "io.mockk:mockk", version = "1.13.3" }
