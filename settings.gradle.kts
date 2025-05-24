@@ -1,7 +1,14 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
-        google()
-        gradlePluginPortal()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
     }
 }
