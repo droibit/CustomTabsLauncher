@@ -36,10 +36,10 @@ dependencies {
 
 mavenPublishing {
   configure(
-      AndroidSingleVariantLibrary(
-          variant = "release",
-          sourcesJar = true,
-          publishJavadocJar = false,
-      ),
+    AndroidSingleVariantLibrary(
+      variant = "release",
+      sourcesJar = true,
+      publishJavadocJar = false,
+    ),
   )
 }
