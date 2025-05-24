@@ -21,199 +21,199 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
 class CustomTabsIntentHelperTest {
-    @get:Rule
-    val mockkRule = MockKRule(this)
+  @get:Rule
+  val mockkRule = MockKRule(this)
 
-    @MockK
-    private lateinit var context: Context
+  @MockK
+  private lateinit var context: Context
 
-    @After
-    fun tearDown() {
-        unmockkAll()
+  @After
+  fun tearDown() {
+    unmockkAll()
+  }
+
+  @Test
+  fun `CHROME_PACKAGES are listed in priority order`() {
+    val expectedOrder = listOf(
+      "com.android.chrome",
+      "com.chrome.beta",
+      "com.chrome.dev",
+      "com.google.android.apps.chrome",
+    )
+    assertThat(CHROME_PACKAGES.toList()).isEqualTo(expectedOrder)
+  }
+
+  @Test
+  fun `setChromeCustomTabsPackage uses Chrome if found`() {
+    mockkStatic(CustomTabsClient::class)
+
+    val chromePackage = "com.android.chrome"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
+
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setChromeCustomTabsPackage(context)
+    assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `CHROME_PACKAGES are listed in priority order`() {
-        val expectedOrder = listOf(
-            "com.android.chrome",
-            "com.chrome.beta",
-            "com.chrome.dev",
-            "com.google.android.apps.chrome"
-        )
-        assertThat(CHROME_PACKAGES.toList()).isEqualTo(expectedOrder)
+  @Test
+  fun `setChromeCustomTabsPackage sets null if Chrome not found`() {
+    mockkStatic(CustomTabsClient::class)
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
+
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setChromeCustomTabsPackage(context)
+    assertThat(customTabsIntent.intent.`package`).isNull()
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `setChromeCustomTabsPackage uses Chrome if found`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `setChromeCustomTabsPackage uses non-Chrome Custom Tab if Chrome not found`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val chromePackage = "com.android.chrome"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
+    val nonChromePackage = "com.example.customtabs"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
 
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setChromeCustomTabsPackage(context)
-        assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
+    val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setChromeCustomTabsPackage(context, additionalCustomTabs)
+    assertThat(customTabsIntent.intent.`package`).isEqualTo(nonChromePackage)
 
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
+    verify {
+      val packages = (CHROME_PACKAGES + nonChromePackage).toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `setChromeCustomTabsPackage sets null if Chrome not found`() {
-        mockkStatic(CustomTabsClient::class)
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
+  @Test
+  fun `setCustomTabsPackage uses default browser if found`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setChromeCustomTabsPackage(context)
-        assertThat(customTabsIntent.intent.`package`).isNull()
+    val chromePackage = "com.chrome.beta"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
 
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setCustomTabsPackage(context)
+    assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
     }
+  }
 
-    @Test
-    fun `setChromeCustomTabsPackage uses non-Chrome Custom Tab if Chrome not found`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `setCustomTabsPackage sets null if no default browser or Chrome found`() {
+    mockkStatic(CustomTabsClient::class)
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
 
-        val nonChromePackage = "com.example.customtabs"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setCustomTabsPackage(context)
+    assertThat(customTabsIntent.intent.`package`).isNull()
 
-        val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setChromeCustomTabsPackage(context, additionalCustomTabs)
-        assertThat(customTabsIntent.intent.`package`).isEqualTo(nonChromePackage)
-
-        verify {
-            val packages = (CHROME_PACKAGES + nonChromePackage).toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
     }
+  }
 
-    @Test
-    fun `setCustomTabsPackage uses default browser if found`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `setCustomTabsPackage uses non-Chrome Custom Tab if none found`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val chromePackage = "com.chrome.beta"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
+    val nonChromePackage = "com.example.customtabs"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
 
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setCustomTabsPackage(context)
-        assertThat(customTabsIntent.intent.`package`).isEqualTo(chromePackage)
+    val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .build()
+      .setCustomTabsPackage(context, additionalCustomTabs)
+    assertThat(customTabsIntent.intent.`package`).isEqualTo(nonChromePackage)
 
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
-        }
+    verify {
+      val packages = (CHROME_PACKAGES + nonChromePackage).toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
     }
+  }
 
-    @Test
-    fun `setCustomTabsPackage sets null if no default browser or Chrome found`() {
-        mockkStatic(CustomTabsClient::class)
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
+  @Test
+  fun `getCustomTabsPackage returns default Chrome package when available`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setCustomTabsPackage(context)
-        assertThat(customTabsIntent.intent.`package`).isNull()
+    val chromePackage = "com.android.chrome"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
 
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
-        }
+    val packageName = getCustomTabsPackage(context)
+    assertThat(packageName).isEqualTo(chromePackage)
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `setCustomTabsPackage uses non-Chrome Custom Tab if none found`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `getCustomTabsPackage returns additional Custom Tabs package when Chrome not available`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val nonChromePackage = "com.example.customtabs"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
+    val nonChromePackage = "com.example.browser"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
 
-        val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .build()
-            .setCustomTabsPackage(context, additionalCustomTabs)
-        assertThat(customTabsIntent.intent.`package`).isEqualTo(nonChromePackage)
+    val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
+    val packageName =
+      getCustomTabsPackage(context, additionalCustomTabs = additionalCustomTabs)
+    assertThat(packageName).isEqualTo(nonChromePackage)
 
-        verify {
-            val packages = (CHROME_PACKAGES + nonChromePackage).toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
-        }
+    verify {
+      val packages = (CHROME_PACKAGES + nonChromePackage).toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `getCustomTabsPackage returns default Chrome package when available`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `getCustomTabsPackage returns null when no packages are available`() {
+    mockkStatic(CustomTabsClient::class)
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
 
-        val chromePackage = "com.android.chrome"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns chromePackage
 
-        val packageName = getCustomTabsPackage(context)
-        assertThat(packageName).isEqualTo(chromePackage)
+    val packageName = getCustomTabsPackage(context)
+    assertThat(packageName).isNull()
 
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
     }
+  }
 
-    @Test
-    fun `getCustomTabsPackage returns additional Custom Tabs package when Chrome not available`() {
-        mockkStatic(CustomTabsClient::class)
+  @Test
+  fun `getCustomTabsPackage ignores default packages when ignoreDefault is false`() {
+    mockkStatic(CustomTabsClient::class)
 
-        val nonChromePackage = "com.example.browser"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
+    val nonChromePackage = "com.example.browser"
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
 
-        val additionalCustomTabs = NonChromeCustomTabs(setOf(nonChromePackage))
-        val packageName =
-            getCustomTabsPackage(context, additionalCustomTabs = additionalCustomTabs)
-        assertThat(packageName).isEqualTo(nonChromePackage)
+    val packageName = getCustomTabsPackage(
+      context,
+      ignoreDefault = false,
+    )
+    assertThat(packageName).isEqualTo(nonChromePackage)
 
-        verify {
-            val packages = (CHROME_PACKAGES + nonChromePackage).toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
     }
-
-    @Test
-    fun `getCustomTabsPackage returns null when no packages are available`() {
-        mockkStatic(CustomTabsClient::class)
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
-
-
-        val packageName = getCustomTabsPackage(context)
-        assertThat(packageName).isNull()
-
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
-        }
-    }
-
-    @Test
-    fun `getCustomTabsPackage ignores default packages when ignoreDefault is false`() {
-        mockkStatic(CustomTabsClient::class)
-
-        val nonChromePackage = "com.example.browser"
-        every { CustomTabsClient.getPackageName(any(), any(), any()) } returns nonChromePackage
-
-        val packageName = getCustomTabsPackage(
-            context,
-            ignoreDefault = false
-        )
-        assertThat(packageName).isEqualTo(nonChromePackage)
-
-        verify {
-            val packages = CHROME_PACKAGES.toList()
-            CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
-        }
-    }
+  }
 }

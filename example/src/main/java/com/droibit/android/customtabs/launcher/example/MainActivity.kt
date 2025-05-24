@@ -16,95 +16,95 @@ import com.droibit.android.customtabs.launcher.setCustomTabsPackage
 
 @Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private val activityLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-        Log.d("DEBUG", "result: $result")
-    }
+  private val activityLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+    Log.d("DEBUG", "result: $result")
+  }
 
-    fun launchInDefaultCustomTabs(v: View) {
-        try {
-            val customTabsIntent = customTabsBuilder().build()
-            customTabsIntent.launchUrl(this, URI_GOOGLE)
-        } catch (e: ActivityNotFoundException) {
-            showErrorToast()
+  fun launchInDefaultCustomTabs(v: View) {
+    try {
+      val customTabsIntent = customTabsBuilder().build()
+      customTabsIntent.launchUrl(this, URI_GOOGLE)
+    } catch (e: ActivityNotFoundException) {
+      showErrorToast()
+    }
+  }
+
+  fun launchInChromeCustomTabs(v: View) {
+    try {
+      val customTabsIntent = customTabsBuilder()
+        .build().also {
+          it.setChromeCustomTabsPackage(this)
         }
+      customTabsIntent.launchUrl(this, URI_GOOGLE)
+    } catch (e: ActivityNotFoundException) {
+      showErrorToast()
     }
+  }
 
-    fun launchInChromeCustomTabs(v: View) {
-        try {
-            val customTabsIntent = customTabsBuilder()
-                .build().also {
-                    it.setChromeCustomTabsPackage(this)
-                }
-            customTabsIntent.launchUrl(this, URI_GOOGLE)
-        } catch (e: ActivityNotFoundException) {
-            showErrorToast()
+  fun launchInCustomTabs(v: View) {
+    try {
+      val customTabsIntent = customTabsBuilder()
+        .build().also {
+          it.setCustomTabsPackage(this)
         }
+      customTabsIntent.launchUrl(this, URI_GOOGLE)
+    } catch (e: ActivityNotFoundException) {
+      showErrorToast()
     }
+  }
 
-    fun launchInCustomTabs(v: View) {
-        try {
-            val customTabsIntent = customTabsBuilder()
-                .build().also {
-                    it.setCustomTabsPackage(this)
-                }
-            customTabsIntent.launchUrl(this, URI_GOOGLE)
-        } catch (e: ActivityNotFoundException) {
-            showErrorToast()
+  fun fallbacks(v: View) {
+    try {
+      val customTabsIntent = customTabsBuilder()
+        .build().also {
+          it.setChromeCustomTabsPackage(this, NonChromeCustomTabs(this))
         }
+      customTabsIntent.launchUrl(this, URI_GOOGLE)
+    } catch (e: ActivityNotFoundException) {
+      showErrorToast()
     }
+  }
 
-    fun fallbacks(v: View) {
-        try {
-            val customTabsIntent = customTabsBuilder()
-                .build().also {
-                    it.setChromeCustomTabsPackage(this, NonChromeCustomTabs(this))
-                }
-            customTabsIntent.launchUrl(this, URI_GOOGLE)
-        } catch (e: ActivityNotFoundException) {
-            showErrorToast()
-        }
-    }
+  fun launchInPartialCustomTabs(v: View) {
+    val customTabsIntent = CustomTabsIntent.Builder()
+      .setShowTitle(true)
+      .setDefaultColorSchemeParams(
+        CustomTabColorSchemeParams.Builder()
+          .setToolbarColor(
+            ContextCompat.getColor(this, R.color.colorPrimary),
+          )
+          .build(),
+      )
+      .setInitialActivityHeightPx(400)
+      .build().apply {
+        setChromeCustomTabsPackage(this@MainActivity)
+        intent.data = URI_GOOGLE
+      }
+    activityLauncher.launch(customTabsIntent.intent)
+  }
 
-    fun launchInPartialCustomTabs(v: View) {
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .setShowTitle(true)
-            .setDefaultColorSchemeParams(
-                CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                    )
-                    .build()
-            )
-            .setInitialActivityHeightPx(400)
-            .build().apply {
-                setChromeCustomTabsPackage(this@MainActivity)
-                intent.data = URI_GOOGLE
-            }
-        activityLauncher.launch(customTabsIntent.intent)
-    }
+  private fun customTabsBuilder(): CustomTabsIntent.Builder {
+    return CustomTabsIntent.Builder()
+      .setUrlBarHidingEnabled(true)
+      .setShowTitle(true)
+      .setShareState(CustomTabsIntent.SHARE_STATE_ON)
+      .setDefaultColorSchemeParams(
+        CustomTabColorSchemeParams.Builder()
+          .setToolbarColor(
+            ContextCompat.getColor(this, R.color.colorPrimary),
+          )
+          .build(),
+      )
+  }
 
-    private fun customTabsBuilder(): CustomTabsIntent.Builder {
-        return CustomTabsIntent.Builder()
-            .setUrlBarHidingEnabled(true)
-            .setShowTitle(true)
-            .setShareState(CustomTabsIntent.SHARE_STATE_ON)
-            .setDefaultColorSchemeParams(
-                CustomTabColorSchemeParams.Builder()
-                    .setToolbarColor(
-                        ContextCompat.getColor(this, R.color.colorPrimary)
-                    )
-                    .build()
-            )
-    }
+  private fun showErrorToast() {
+    Toast.makeText(this, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT)
+      .show()
+  }
 
-    private fun showErrorToast() {
-        Toast.makeText(this, "Failed to launch Chrome Custom Tabs.", Toast.LENGTH_SHORT)
-            .show()
-    }
+  companion object {
 
-    companion object {
-
-        @JvmStatic
-        private val URI_GOOGLE = Uri.parse("https://www.google.com")
-    }
+    @JvmStatic
+    private val URI_GOOGLE = Uri.parse("https://www.google.com")
+  }
 }

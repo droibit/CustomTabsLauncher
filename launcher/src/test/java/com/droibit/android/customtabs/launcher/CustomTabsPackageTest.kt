@@ -19,66 +19,66 @@ import org.robolectric.annotation.Config
 @RunWith(AndroidJUnit4::class)
 @Config(manifest = Config.NONE)
 class CustomTabsPackageTest {
-    @get:Rule
-    val mockkRule = MockKRule(this)
+  @get:Rule
+  val mockkRule = MockKRule(this)
 
-    @MockK
-    private lateinit var pm: PackageManager
+  @MockK
+  private lateinit var pm: PackageManager
 
-    @MockK
-    private lateinit var context: Context
+  @MockK
+  private lateinit var context: Context
 
-    @Before
-    fun setUp() {
-        every { context.packageManager } returns pm
-    }
+  @Before
+  fun setUp() {
+    every { context.packageManager } returns pm
+  }
 
-    @Test
-    fun `getNonChromeCustomTabsPackages returns only non-Chrome CustomTabs packages`() {
-        val activities = listOf(
-            createResolveInfo(packageName = "com.android.chrome"),
-            createResolveInfo(packageName = "com.example.customtabs_1"),
-            createResolveInfo(packageName = "com.example.customtabs_2"),
-        )
-        every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
-        every { pm.resolveService(any(), any<Int>()) } returns mockk()
+  @Test
+  fun `getNonChromeCustomTabsPackages returns only non-Chrome CustomTabs packages`() {
+    val activities = listOf(
+      createResolveInfo(packageName = "com.android.chrome"),
+      createResolveInfo(packageName = "com.example.customtabs_1"),
+      createResolveInfo(packageName = "com.example.customtabs_2"),
+    )
+    every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
+    every { pm.resolveService(any(), any<Int>()) } returns mockk()
 
-        val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
-        assertThat(result).containsExactly(
-            "com.example.customtabs_1",
-            "com.example.customtabs_2",
-        )
-    }
+    val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
+    assertThat(result).containsExactly(
+      "com.example.customtabs_1",
+      "com.example.customtabs_2",
+    )
+  }
 
-    @Test
-    fun `getNonChromeCustomTabsPackages returns empty list if CustomTabsService is not found`() {
-        val activities = listOf(
-            createResolveInfo(packageName = "com.example.customtabs_1"),
-            createResolveInfo(packageName = "com.example.customtabs_2"),
-        )
-        every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
-        every { pm.resolveService(any(), any<Int>()) } returns null
+  @Test
+  fun `getNonChromeCustomTabsPackages returns empty list if CustomTabsService is not found`() {
+    val activities = listOf(
+      createResolveInfo(packageName = "com.example.customtabs_1"),
+      createResolveInfo(packageName = "com.example.customtabs_2"),
+    )
+    every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
+    every { pm.resolveService(any(), any<Int>()) } returns null
 
-        val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
-        assertThat(result).isEmpty()
-    }
+    val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
+    assertThat(result).isEmpty()
+  }
 
-    @Test
-    fun `getNonChromeCustomTabsPackages returns empty list if Chrome is installed`() {
-        val activities = listOf(
-            createResolveInfo(packageName = "com.android.chrome"),
-            createResolveInfo(packageName = "com.chrome.beta"),
-        )
-        every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
-        every { pm.resolveService(any(), any<Int>()) } returns mockk()
+  @Test
+  fun `getNonChromeCustomTabsPackages returns empty list if Chrome is installed`() {
+    val activities = listOf(
+      createResolveInfo(packageName = "com.android.chrome"),
+      createResolveInfo(packageName = "com.chrome.beta"),
+    )
+    every { pm.queryIntentActivities(any(), any<Int>()) } returns activities
+    every { pm.resolveService(any(), any<Int>()) } returns mockk()
 
-        val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
-        assertThat(result).isEmpty()
-    }
+    val result = CustomTabsPackage.getNonChromeCustomTabsPackages(context)
+    assertThat(result).isEmpty()
+  }
 }
 
 private fun createResolveInfo(packageName: String) = ResolveInfo().apply {
-    activityInfo = ActivityInfo().apply {
-        this.packageName = packageName
-    }
+  activityInfo = ActivityInfo().apply {
+    this.packageName = packageName
+  }
 }
