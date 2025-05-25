@@ -1,15 +1,22 @@
 package com.droibit.android.customtabs.launcher.example
 
 import android.content.ActivityNotFoundException
+import android.graphics.Color
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.droibit.android.customtabs.launcher.NonChromeCustomTabs
 import com.droibit.android.customtabs.launcher.setChromeCustomTabsPackage
 import com.droibit.android.customtabs.launcher.setCustomTabsPackage
@@ -18,6 +25,24 @@ import com.droibit.android.customtabs.launcher.setCustomTabsPackage
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
   private val activityLauncher = registerForActivityResult(StartActivityForResult()) { result ->
     Log.d("DEBUG", "result: $result")
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    enableEdgeToEdge(
+      statusBarStyle = SystemBarStyle.light(
+        scrim = Color.TRANSPARENT,
+        darkScrim = Color.TRANSPARENT,
+      ),
+    )
+    super.onCreate(savedInstanceState)
+    setSupportActionBar(findViewById(R.id.toolbar))
+
+    // Apply system bar insets to the root view to support edge-to-edge layout.
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
+      val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+      v.updatePadding(top = systemInsets.top, bottom = systemInsets.bottom)
+      WindowInsetsCompat.CONSUMED
+    }
   }
 
   fun launchInDefaultCustomTabs(v: View) {

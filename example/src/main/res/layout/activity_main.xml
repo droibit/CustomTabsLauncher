@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:padding="@dimen/activity_margin"
   android:orientation="vertical"
   tools:context=".MainActivity">
 
-  <Button
-    android:id="@+id/defaultButton"
-    android:text="Launch in default"
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="launchInDefaultCustomTabs" />
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:elevation="4dp"
+    app:title="@string/app_name"
+    app:titleTextColor="@android:color/white"
+    />
 
-  <Button
-    android:id="@+id/chromeCustomTabsButton"
-    android:text="Launch in Chrome"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="launchInChromeCustomTabs" />
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin">
+    <Button
+      android:id="@+id/defaultButton"
+      android:text="Launch in default"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="launchInDefaultCustomTabs" />
 
-  <Button
-    android:id="@+id/customTabsButton"
-    android:text="Launch in Custom Tabs"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="launchInCustomTabs" />
+    <Button
+      android:id="@+id/chromeCustomTabsButton"
+      android:text="Launch in Chrome"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="launchInChromeCustomTabs" />
 
-  <Button
-    android:id="@+id/fallbacksButton"
-    android:text="FallBacks"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="fallbacks" />
+    <Button
+      android:id="@+id/customTabsButton"
+      android:text="Launch in Custom Tabs"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="launchInCustomTabs" />
 
-  <Button
-    android:id="@+id/startActivityButton"
-    android:text="Launch in partial custom tabs"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:onClick="launchInPartialCustomTabs" />
+    <Button
+      android:id="@+id/fallbacksButton"
+      android:text="FallBacks"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="fallbacks" />
+
+    <Button
+      android:id="@+id/startActivityButton"
+      android:text="Launch in partial custom tabs"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="launchInPartialCustomTabs" />
+  </LinearLayout>
 
 </LinearLayout>

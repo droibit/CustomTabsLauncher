@@ -1,9 +1,10 @@
 [versions]
-android-gradle-plugin = "8.3.2"
+android-gradle-plugin = "8.9.3"
 kotlin = "1.8.20"
-compileSdk = "34"
+compileSdk = "35"
 
 [libraries]
+androidx-activity = { module = "androidx.activity:activity", version = "1.10.1" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
 androidx-browser = { module = "androidx.browser:browser", version = "1.8.0" }
 androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" }

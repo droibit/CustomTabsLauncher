@@ -1,6 +1,6 @@
 plugins {
-  id("com.android.application")
-  id("kotlin-android")
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin)
 }
 
 android {
@@ -10,7 +10,7 @@ android {
   defaultConfig {
     applicationId = "com.droibit.android.customtabs.launcher.example"
     minSdk = 23
-    targetSdk = 34
+    targetSdk = 35
     versionCode = 1
     versionName = "1.0.0"
   }
@@ -38,6 +38,7 @@ android {
 
 dependencies {
   implementation(projects.launcher)
+  implementation(libs.androidx.activity)
   implementation(libs.androidx.appcompat)
   implementation(libs.androidx.browser)
 }
