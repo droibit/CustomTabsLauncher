@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
       ),
     )
     super.onCreate(savedInstanceState)
+    setSupportActionBar(findViewById(R.id.toolbar))
 
+    // Apply system bar insets to the root view to support edge-to-edge layout.
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
       val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
       v.updatePadding(top = systemInsets.top, bottom = systemInsets.bottom)
