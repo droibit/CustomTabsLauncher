@@ -33,17 +33,6 @@ class CustomTabsIntentHelperTest {
   }
 
   @Test
-  fun `CHROME_PACKAGES are listed in priority order`() {
-    val expectedOrder = listOf(
-      "com.android.chrome",
-      "com.chrome.beta",
-      "com.chrome.dev",
-      "com.google.android.apps.chrome",
-    )
-    assertThat(CHROME_PACKAGES.toList()).isEqualTo(expectedOrder)
-  }
-
-  @Test
   fun `setChromeCustomTabsPackage uses Chrome if found`() {
     mockkStatic(CustomTabsClient::class)
 
@@ -97,6 +86,25 @@ class CustomTabsIntentHelperTest {
   }
 
   @Test
+  fun `setChromeCustomTabsPackage does not set package if getCustomTabsPackage returns null`() {
+    mockkStatic(CustomTabsClient::class)
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
+
+    val customTabsIntent = CustomTabsIntent.Builder().build()
+      .also {
+        assertThat(it.intent.`package`).isNull()
+      }
+      .setChromeCustomTabsPackage(context)
+
+    assertThat(customTabsIntent.intent.`package`).isNull()
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(true))
+    }
+  }
+
+  @Test
   fun `setCustomTabsPackage uses default browser if found`() {
     mockkStatic(CustomTabsClient::class)
 
@@ -145,6 +153,25 @@ class CustomTabsIntentHelperTest {
 
     verify {
       val packages = (CHROME_PACKAGES + nonChromePackage).toList()
+      CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
+    }
+  }
+
+  @Test
+  fun `setCustomTabsPackage does not set package if getCustomTabsPackage returns null`() {
+    mockkStatic(CustomTabsClient::class)
+    every { CustomTabsClient.getPackageName(any(), any(), any()) } returns null
+
+    val customTabsIntent = CustomTabsIntent.Builder().build()
+      .also {
+        assertThat(it.intent.`package`).isNull()
+      }
+      .setCustomTabsPackage(context)
+
+    assertThat(customTabsIntent.intent.`package`).isNull()
+
+    verify {
+      val packages = CHROME_PACKAGES.toList()
       CustomTabsClient.getPackageName(any(), eq(packages), eq(false))
     }
   }

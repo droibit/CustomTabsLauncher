@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -31,6 +32,17 @@ class CustomTabsPackageTest {
   @Before
   fun setUp() {
     every { context.packageManager } returns pm
+  }
+
+  @Test
+  fun `CHROME_PACKAGES are listed in priority order`() {
+    val expectedOrder = listOf(
+      "com.android.chrome",
+      "com.chrome.beta",
+      "com.chrome.dev",
+      "com.google.android.apps.chrome",
+    )
+    assertThat(CHROME_PACKAGES.toList()).isEqualTo(expectedOrder)
   }
 
   @Test
