@@ -5,7 +5,8 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  tools:context=".MainActivity">
+  tools:context=".MainActivity"
+  tools:ignore="HardcodedText">
 
   <androidx.appcompat.widget.Toolbar
     android:id="@+id/toolbar"
@@ -14,48 +15,55 @@
     android:background="?attr/colorPrimary"
     android:elevation="4dp"
     app:title="@string/app_name"
-    app:titleTextColor="@android:color/white"
-    />
+    app:titleTextColor="@android:color/white" />
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_margin">
+
     <Button
       android:id="@+id/defaultButton"
-      android:text="Launch in default"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onClick="launchInDefaultCustomTabs" />
+      android:onClick="launchInDefaultCustomTabs"
+      android:text="Launch in default" />
 
     <Button
       android:id="@+id/chromeCustomTabsButton"
-      android:text="Launch in Chrome"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onClick="launchInChromeCustomTabs" />
+      android:onClick="launchInChromeCustomTabs"
+      android:text="Launch in Chrome" />
 
     <Button
       android:id="@+id/customTabsButton"
-      android:text="Launch in Custom Tabs"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onClick="launchInCustomTabs" />
+      android:onClick="launchInCustomTabs"
+      android:text="Launch in Custom Tabs" />
 
     <Button
       android:id="@+id/fallbacksButton"
-      android:text="FallBacks"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onClick="fallbacks" />
+      android:onClick="fallbacks"
+      android:text="FallBacks" />
 
     <Button
       android:id="@+id/startActivityButton"
-      android:text="Launch in partial custom tabs"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onClick="launchInPartialCustomTabs" />
+      android:onClick="launchInPartialCustomTabs"
+      android:text="Launch in partial custom tabs" />
+
+    <Button
+      android:id="@+id/authTabButton"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:onClick="launchAuthTab"
+      android:text="Launch Auth Tab" />
   </LinearLayout>
 
 </LinearLayout>
