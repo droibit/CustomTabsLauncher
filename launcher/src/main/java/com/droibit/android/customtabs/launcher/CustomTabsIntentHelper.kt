@@ -32,7 +32,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  *      // Do something.
  * }
  *
- * val customTabsIntent = build().apply {
+ * val customTabsIntent = buildCustomTabsIntent().apply {
  *      setChromeCustomTabsPackage(context)
  *      intent.data = Uri
  * }
@@ -40,7 +40,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  * ```
  *
  * @param context The source Context
- * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ * @param additionalCustomTabs A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
  *
  * @return The modified [CustomTabsIntent] with the specified package set.
  */
@@ -68,8 +68,8 @@ fun CustomTabsIntent.setChromeCustomTabsPackage(
  * ## Usage
  * - Basic usage:
  * ```
- * val customTabsIntent = build()
- * customTabsIntent.setCustomTabsPackage(context)
+ * val customTabsIntent = buildCustomTabsIntent()
+ *   .setCustomTabsPackage(context)
  * customTabsIntent.launchUrl(context, Uri)
  * ```
  *
@@ -105,8 +105,9 @@ internal fun CustomTabsIntent.setCustomTabsPackage(
   ignoreDefault: Boolean = true,
   additionalCustomTabs: CustomTabsPackageProvider? = null,
 ) {
-  val customTabsPackage = getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)
-  intent.setPackage(customTabsPackage)
+  getCustomTabsPackage(context, ignoreDefault, additionalCustomTabs)?.let { packageName ->
+    intent.setPackage(packageName)
+  }
 }
 
 /**
@@ -118,7 +119,7 @@ internal fun CustomTabsIntent.setCustomTabsPackage(
  *
  * @param context The source Context
  * @param ignoreDefault If set to `true`, the default browser is prioritized when selecting the Custom Tabs package.
- * @param additionalCustomTabs (Optional) A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
+ * @param additionalCustomTabs A [CustomTabsPackageProvider] providing additional browser packages that support Custom Tabs.
  *
  * @return The package name of the selected browser that supports Custom Tabs, or `null` if none found.
  */

@@ -13,8 +13,7 @@ cases:
 - Multiple browser apps are installed on the device.
 - The default browser is not Chrome.
 
-Custom Tabs can be displayed as one screen of your app, allowing you to customize the look and
-feel.  
+Custom Tabs can be displayed as a screen within your app, allowing you to customize the look and feel.  
 For this reason, I created this library to make it easier to launch Chrome Custom Tabs directly.
 
 ## Download
@@ -32,7 +31,7 @@ implementation("io.github.droibit:customtabslauncher:LATEST_VERSION")
 
 ### Basic Usage
 
-#### Launch in Chrome Custom Tabs
+#### Launch with Chrome Custom Tabs
 
 ```kotlin
 try {
@@ -44,7 +43,7 @@ try {
 }
 ```
 
-#### Launch in the default browser that supports Custom Tabs
+#### Launch with the default browser that supports Custom Tabs
 
 ```kotlin
 try {
@@ -56,7 +55,7 @@ try {
 }
 ```
 
-### Present a custom tab as bottom sheet
+### Present a Custom Tab as a bottom sheet
 
 ```kotlin
 val activityLauncher = registerForActivityResult(StartActivityForResult()) {
@@ -64,7 +63,7 @@ val activityLauncher = registerForActivityResult(StartActivityForResult()) {
 }
 
 try {
-  val customTabsIntent = build().apply {
+  val customTabsIntent = buildCustomTabsIntent().apply {
     setChromeCustomTabsPackage(context) // or setCustomTabsPackage(context)
     intent.data = Uri.parse("https://example.com")
   }
@@ -87,6 +86,17 @@ buildCustomTabsIntent()
     //   listOf("org.mozilla.firefox", "com.microsoft.emmx")
     // )
   )
+```
+
+### Authentication using the Auth Tab
+
+```kotlin
+val launcher = AuthTabIntent.registerActivityResultLauncher(context) { result ->
+  // Handle the result of the Auth Tab.
+}
+val authTabIntent = buildAuthTabIntent()
+  .setChromeCustomTabsPackage(context)
+authTabIntent.launch(launcher, AUTHENTICATION_URL, REDIRECT_SCHEME)
 ```
 
 ## License

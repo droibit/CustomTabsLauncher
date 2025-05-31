@@ -1,8 +1,12 @@
 package com.droibit.android.customtabs.launcher.example
 
 import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.Intent.ACTION_VIEW
+import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,9 +15,12 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.auth.AuthTabIntent
 import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -23,8 +30,13 @@ import com.droibit.android.customtabs.launcher.setCustomTabsPackage
 
 @Suppress("UNUSED_PARAMETER")
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-  private val activityLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-    Log.d("DEBUG", "result: $result")
+  private val partialCustomTabsLauncher =
+    registerForActivityResult(StartActivityForResult()) { result ->
+      Log.d(BuildConfig.BUILD_TYPE, "result: $result")
+    }
+
+  private val authTabLauncher = AuthTabIntent.registerActivityResultLauncher(this) { result ->
+    Log.d(BuildConfig.BUILD_TYPE, "result: ${result.resultCode}, resultUri=${result.resultUri}")
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +55,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
       v.updatePadding(top = systemInsets.top, bottom = systemInsets.bottom)
       WindowInsetsCompat.CONSUMED
     }
+    dumpInstalledBrowsers(this)
   }
 
   fun launchInDefaultCustomTabs(v: View) {
@@ -105,7 +118,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setChromeCustomTabsPackage(this@MainActivity)
         intent.data = URI_GOOGLE
       }
-    activityLauncher.launch(customTabsIntent.intent)
+    partialCustomTabsLauncher.launch(customTabsIntent.intent)
+  }
+
+  fun launchAuthTab(v: View) {
+    try {
+      val authTabIntent = AuthTabIntent.Builder()
+        .build()
+        .setChromeCustomTabsPackage(this)
+      authTabIntent.launch(authTabLauncher, URI_GOOGLE, "example")
+    } catch (e: ActivityNotFoundException) {
+      showErrorToast()
+    }
   }
 
   private fun customTabsBuilder(): CustomTabsIntent.Builder {
@@ -127,9 +151,31 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
       .show()
   }
 
+  private fun dumpInstalledBrowsers(context: Context) {
+    val pm = context.packageManager
+    val intent = Intent(ACTION_VIEW, "http://www.example.com".toUri())
+    val flag = PackageManager.MATCH_ALL
+    val browser = buildList {
+      val resolveInfos = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        pm.queryIntentActivities(
+          intent,
+          PackageManager.ResolveInfoFlags.of(flag.toLong()),
+        )
+      } else {
+        pm.queryIntentActivities(intent, flag)
+      }
+      for (info in resolveInfos) {
+        val packageName = info.activityInfo.packageName
+        val isAuthTabSupported = CustomTabsClient.isAuthTabSupported(context, packageName)
+        add("$packageName(isAuthTabSupported=$isAuthTabSupported)")
+      }
+    }
+    Log.d("DEBUG", "Installed browsers: $browser")
+  }
+
   companion object {
 
     @JvmStatic
-    private val URI_GOOGLE = Uri.parse("https://www.google.com")
+    private val URI_GOOGLE = "https://www.google.com".toUri()
   }
 }
