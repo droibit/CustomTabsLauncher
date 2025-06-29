@@ -1,15 +1,15 @@
 [versions]
-android-gradle-plugin = "8.9.3"
+android-gradle-plugin = "8.11.0"
 kotlin = "1.8.20"
 compileSdk = "36"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version = "1.10.1" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
-androidx-browser = { module = "androidx.browser:browser", version = "1.9.0-alpha04" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.1" }
+androidx-browser = { module = "androidx.browser:browser", version = "1.9.0-alpha05" }
 androidx-test-junit = { module = "androidx.test.ext:junit-ktx", version = "1.2.1" }
 junit = { module = "junit:junit", version = "4.13.2" }
-robolectric = { module = "org.robolectric:robolectric", version = "4.14.1" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.15.1" }
 mockk = { module = "io.mockk:mockk", version = "1.14.2" }
 truth = { module = "com.google.truth:truth", version = "1.4.4" }
 
@@ -17,4 +17,4 @@ truth = { module = "com.google.truth:truth", version = "1.4.4" }
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.32.0" }
+maven-publish = { id = "com.vanniktech.maven.publish", version = "0.33.0" }
