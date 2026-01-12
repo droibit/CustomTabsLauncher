@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   alias(libs.plugins.android.library)
@@ -24,6 +25,8 @@ android {
 kotlin {
   compilerOptions {
     jvmTarget = JvmTarget.JVM_1_8
+    apiVersion = KotlinVersion.KOTLIN_1_8
+    languageVersion = KotlinVersion.KOTLIN_1_8
   }
 }
 
