@@ -1,6 +1,5 @@
 [versions]
-android-gradle-plugin = "8.12.0"
-kotlin = "2.0.0"
+android-gradle-plugin = "9.0.1"
 compileSdk = "36"
 
 [libraries]
@@ -16,5 +15,4 @@ truth = { module = "com.google.truth:truth", version = "1.4.4" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }

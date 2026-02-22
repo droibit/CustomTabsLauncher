@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   alias(libs.plugins.android.library)
-  alias(libs.plugins.kotlin)
   alias(libs.plugins.maven.publish)
 }
 
@@ -17,16 +16,16 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
   }
 }
 
 kotlin {
   compilerOptions {
-    jvmTarget = JvmTarget.JVM_1_8
-    apiVersion = KotlinVersion.KOTLIN_1_8
-    languageVersion = KotlinVersion.KOTLIN_1_8
+    jvmTarget = JvmTarget.JVM_11
+    apiVersion = KotlinVersion.KOTLIN_2_0
+    languageVersion = KotlinVersion.KOTLIN_2_0
   }
 }
 
