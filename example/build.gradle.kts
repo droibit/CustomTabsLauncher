@@ -1,16 +1,21 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
   alias(libs.plugins.android.application)
-  alias(libs.plugins.kotlin)
 }
 
 android {
   namespace = "com.droibit.android.customtabs.launcher.example"
-  compileSdk = libs.versions.compileSdk.get().toInt()
+  compileSdk {
+    version = release(libs.versions.compileSdk.get().toInt())
+  }
 
   defaultConfig {
     applicationId = "com.droibit.android.customtabs.launcher.example"
     minSdk = 23
-    targetSdk = 35
+    targetSdk {
+      release(35)
+    }
     versionCode = 1
     versionName = "1.0.0"
   }
@@ -18,7 +23,7 @@ android {
   buildTypes {
     release {
       isMinifyEnabled = false
-      proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
 
@@ -30,9 +35,11 @@ android {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
   }
+}
 
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17.toString()
+kotlin {
+  compilerOptions {
+    jvmTarget = JvmTarget.JVM_17
   }
 }
 
