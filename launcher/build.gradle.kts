@@ -1,4 +1,6 @@
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -42,9 +44,9 @@ dependencies {
 mavenPublishing {
   configure(
     AndroidSingleVariantLibrary(
+      javadocJar = JavadocJar.None(),
+      sourcesJar = SourcesJar.Sources(),
       variant = "release",
-      sourcesJar = true,
-      publishJavadocJar = false,
     ),
   )
 }
