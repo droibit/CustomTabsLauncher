@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":timezone(Asia/Tokyo)",
+    "helpers:pinGitHubActionDigestsToSemver",
+  ],
+  "labels": [
+    "renovate"
+  ],
+  "assignees": [
+    "droibit"
+  ],
+  "packageRules": [
+    {
+      "groupName": "AGP/Gradle",
+      "matchPackageNames": [
+        "gradle",
+        "com.android.application",
+        "com.android.library",
+      ],
+    },
+  ],
+  "prConcurrentLimit": 3,
+}
