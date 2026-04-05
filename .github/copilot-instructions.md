@@ -5,7 +5,7 @@
 CustomTabsLauncher is a lightweight Android library that reliably launches
 [Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs) and
 Auth Tab by explicitly resolving the correct browser package before launching.
-It targets API 19+.
+It targets API 23+.
 
 Modules:
 
