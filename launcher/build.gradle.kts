@@ -14,7 +14,7 @@ android {
   compileSdk = libs.versions.compileSdk.get().toInt()
 
   defaultConfig {
-    minSdk = 19
+    minSdk = 23
   }
 
   compileOptions {
