@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "9.2.1"
+android-gradle-plugin = "9.3.0"
 compileSdk = "36"
 
 [libraries]
