@@ -16,9 +16,9 @@ fun interface CustomTabsPackageProvider {
   /**
    * Retrieves the set of browser package names that support Custom Tabs.
    *
-   * @return A [Set] of package names as [String].
+   * @return A [List] of package names as [String].
    */
-  operator fun invoke(): Set<String>
+  operator fun invoke(): List<String>
 }
 
 /**
@@ -30,12 +30,14 @@ fun interface CustomTabsPackageProvider {
  * @param packages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
  */
 class NonChromeCustomTabs(
-  private val packages: Set<String>,
+  private val packages: List<String>,
 ) : CustomTabsPackageProvider {
 
   constructor(context: Context) : this(
     CustomTabsPackage.getNonChromeCustomTabsPackages(context),
   )
+
+  constructor(packages: Set<String>) : this(packages.toList())
 
   init {
     require(packages.none { CHROME_PACKAGES.contains(it) }) {
@@ -43,5 +45,5 @@ class NonChromeCustomTabs(
     }
   }
 
-  override operator fun invoke(): Set<String> = packages
+  override operator fun invoke(): List<String> = packages
 }
