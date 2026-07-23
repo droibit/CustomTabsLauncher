@@ -5,7 +5,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
- * Interface for providing a set of browser package names that support Custom Tabs.
+ * Interface for providing a list of browser package names that support Custom Tabs.
  *
  * The [CustomTabsPackageProvider] interface allows you to specify alternative browsers
  * that can handle Custom Tabs when launching URLs using [CustomTabsIntent].
@@ -14,7 +14,7 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  */
 fun interface CustomTabsPackageProvider {
   /**
-   * Retrieves the set of browser package names that support Custom Tabs.
+   * Retrieves the list of browser package names that support Custom Tabs.
    *
    * @return A [List] of package names as [String].
    */
@@ -22,7 +22,7 @@ fun interface CustomTabsPackageProvider {
 }
 
 /**
- * Provides a set of non-Chrome browser package names that support Custom Tabs.
+ * Provides a list of non-Chrome browser package names that support Custom Tabs.
  *
  * This is useful when Chrome is not installed or when you prefer to use a different browser
  * that supports Custom Tabs.
