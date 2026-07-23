@@ -40,11 +40,7 @@ internal object CustomTabsPackage {
   }
 
   private fun queryIntentActivities(pm: PackageManager, intent: Intent): List<ResolveInfo> {
-    val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      PackageManager.MATCH_ALL
-    } else {
-      PackageManager.MATCH_DEFAULT_ONLY
-    }
+    val flag = PackageManager.MATCH_ALL
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       pm.queryIntentActivities(
         intent,
