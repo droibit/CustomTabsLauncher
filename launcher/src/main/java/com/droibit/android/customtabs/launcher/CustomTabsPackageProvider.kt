@@ -5,7 +5,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
 
 /**
- * Interface for providing a set of browser package names that support Custom Tabs.
+ * Interface for providing a list of browser package names that support Custom Tabs.
  *
  * The [CustomTabsPackageProvider] interface allows you to specify alternative browsers
  * that can handle Custom Tabs when launching URLs using [CustomTabsIntent].
@@ -14,15 +14,15 @@ import com.droibit.android.customtabs.launcher.CustomTabsPackage.CHROME_PACKAGES
  */
 fun interface CustomTabsPackageProvider {
   /**
-   * Retrieves the set of browser package names that support Custom Tabs.
+   * Retrieves the list of browser package names that support Custom Tabs.
    *
-   * @return A [Set] of package names as [String].
+   * @return A [List] of package names as [String].
    */
-  operator fun invoke(): Set<String>
+  operator fun invoke(): List<String>
 }
 
 /**
- * Provides a set of non-Chrome browser package names that support Custom Tabs.
+ * Provides a list of non-Chrome browser package names that support Custom Tabs.
  *
  * This is useful when Chrome is not installed or when you prefer to use a different browser
  * that supports Custom Tabs.
@@ -30,12 +30,14 @@ fun interface CustomTabsPackageProvider {
  * @param packages Package list of non-Chrome browsers supporting Custom Tabs. The top of the list is used with the highest priority.
  */
 class NonChromeCustomTabs(
-  private val packages: Set<String>,
+  private val packages: List<String>,
 ) : CustomTabsPackageProvider {
 
   constructor(context: Context) : this(
     CustomTabsPackage.getNonChromeCustomTabsPackages(context),
   )
+
+  constructor(packages: Set<String>) : this(packages.toList())
 
   init {
     require(packages.none { CHROME_PACKAGES.contains(it) }) {
@@ -43,5 +45,5 @@ class NonChromeCustomTabs(
     }
   }
 
-  override operator fun invoke(): Set<String> = packages
+  override operator fun invoke(): List<String> = packages
 }

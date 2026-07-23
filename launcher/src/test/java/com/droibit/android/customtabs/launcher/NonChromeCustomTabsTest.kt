@@ -23,7 +23,7 @@ class NonChromeCustomTabsTest {
 
   @Test
   fun `invoke returns non-Chrome packages`() {
-    val packages = setOf(
+    val packages = listOf(
       "com.example.customtabs_1",
       "com.example.customtabs_2",
     )
