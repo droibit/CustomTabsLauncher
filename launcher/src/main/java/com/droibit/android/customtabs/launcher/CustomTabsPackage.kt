@@ -16,7 +16,7 @@ internal object CustomTabsPackage {
   private const val PACKAGE_CHROME_LOCAL = "com.google.android.apps.chrome"
 
   // Higher priority packages are listed first.
-  val CHROME_PACKAGES = linkedSetOf(
+  val CHROME_PACKAGES: Set<String> = linkedSetOf(
     PACKAGE_CHROME_STABLE,
     PACKAGE_CHROME_BETA,
     PACKAGE_CHROME_DEV,
